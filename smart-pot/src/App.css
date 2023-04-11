@@ -1,38 +1,261 @@
-.App {
-  text-align: center;
+/*===== GOOGLE FONTS =====*/
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap");
+
+/*===== VARIABLES CSS =====*/
+
+:root {
+  /*===== Colors =====*/
+  --first-color: #272a3a;
+  --first-color-light: #8a8eaa;
+  --first-color-lighten: #f8f8fc;
+  /*===== Font and typography =====*/
+  --body-font: "Ubuntu", sans-serif;
+  --normal-font-size: 1rem;
+  --smaller-font-size: 0.813rem;
 }
 
-.App-logo {
-  height: 40vmin;
+/*===== BASE =====*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  zoom: reset;
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font);
+  background-color: var(--first-color-lighten);
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*===== DRAG and DROP =====*/
+
+.drop,
+.drop__container {
+  display: grid;
+}
+
+.drop {
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+}
+
+.drop__background {
+  position: absolute;
+  left: 46.75rem;
+  top: 2rem;
+  right: 46.75rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  height: 30rem;
+  background-color: rgb(119, 187, 122);
+  box-shadow: 4px 4px 16px #e1e1e1;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.drop__container {
+  position: absolute;
+  top: 20rem;
+  row-gap: 1rem;
+  padding: 2rem;
+  left: 46.75rem;
+  right: 46.75rem;
+  padding-top: 5rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  background-color: #f8f8fc;
+  box-shadow: 4px 4px 16px #e1e1e1;
+}
+
+.drop__container.with-shade::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.drop__card,
+.drop__data {
   display: flex;
-  flex-direction: column;
   align-items: center;
+}
+
+.drop__card {
+  width: 360px;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem 0.75rem 0.75rem;
+  background-color: var(--first-color-lighten);
+  box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
+  border-radius: 2.5rem;
+  cursor: pointer;
+}
+
+.drop__card:hover {
+  animation: jiggle1 0.2s;
+}
+
+.drop__card:active {
+  transform: translateY(4px);
+  box-shadow: 4px 4px 16px #d4d4d4, -2px -2px 16px #fff;
+}
+.drop__img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.drop__name {
+  font-size: var(--normal-font-size);
+  color: var(--first-color);
+  font-weight: 500;
+}
+
+.drop__profession {
+  font-size: var(--smaller-font-size);
+  color: var(--first-color-light);
+}
+
+.drop__social {
+  margin: 0 0.375rem;
+  color: var(--first-color-light);
+  transition: 0.4s;
+}
+
+.drop__social:hover {
+  color: var(--first-color);
+}
+
+/* Class name for the chosen item */
+
+.sortable-chosen {
+  box-shadow: 8px 8px 32px #e1e1e1;
+}
+
+.card {
+  position: relative;
+  top: 2rem;
+  left: 13.75rem;
+  width: 190px;
+  justify-content: space-between;
+  padding: 0.25rem 1.25rem 0.25rem 0.25rem;
+  background-color: #fff;
+  border-radius: 2.5rem;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Class name for the dragging item */
+
+.sortable-drag {
+  opacity: 0;
+}
+
+@keyframes jiggle1 {
+  0% {
+    transform: rotate(-0.5deg);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    transform: rotate(0.75deg);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes jiggle2 {
+  0% {
+    transform: rotate(0.5deg);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    transform: rotate(-0.75deg);
+    animation-timing-function: ease-out;
+  }
+}
+
+.no-animations * {
+  animation-name: none !important;
+}
+
+.no-animations *:before {
+  animation-name: none !important;
+}
+
+.no-animations *:after {
+  animation-name: none !important;
+}
+
+.no-animations *:not(.jiggle1):not(.jiggle2) {
+  animation: none !important;
+}
+
+.modal-content {
+  /* ... (existing styles) */
+  max-width: 400px;
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.gallery-image {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.gallery-image.selected {
+  border-color: #007bff;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+.modal {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  z-index: 1000; /* Increase the zIndex value */
 }
 
-.App-link {
-  color: #61dafb;
+.block-interaction {
+  pointer-events: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.block-interaction * {
+  pointer-events: auto;
 }
