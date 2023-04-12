@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Sortable from "sortablejs";
-import PlantFormModal from "./PlantFormModal";
-import DropCard from "./DropCard";
-import NoAnimations from "./NoAnimations";
-import MainPlant from "./MainPlant";
-import "./App.css";
+import PlantFormModal from "./components/PlantFormModal";
+import DropCard from "./components/DropCard";
+import NoAnimations from "./components/NoAnimations";
+import MainPlant from "./components/MainPlant";
+import "./assets/css/App.css";
 
 import plantCurrentDefault from "./assets/img/plant4round.png";
 
