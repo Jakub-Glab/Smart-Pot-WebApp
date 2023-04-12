@@ -1,47 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Sortable from "sortablejs";
 import PlantFormModal from "./PlantFormModal";
+import DropCard from "./DropCard";
+import NoAnimations from "./NoAnimations";
+import MainPlant from "./MainPlant";
 import "./App.css";
 
 import plantCurrentDefault from "./assets/img/plant4round.png";
-
-const plantRoundMapping = {
-  "assets/img/plant1.png": "assets/img/plant1round.png",
-  "assets/img/plant2.png": "assets/img/plant2round.png",
-  "assets/img/plant3.png": "assets/img/plant3round.png",
-  "assets/img/plant4.png": "assets/img/plant4round.png",
-};
-
-const DropCard = React.memo(({ id, imgSrc, name, profession, onClick }) => {
-  return (
-    <div className="drop__card" id={id} onClick={() => onClick(imgSrc)}>
-      <div className="drop__data">
-        <img src={imgSrc} alt="" className="drop__img" />
-        <div>
-          <h1 className="drop__name">{name}</h1>
-          <span className="drop__profession">{profession}</span>
-        </div>
-        <div style={{ float: "left" }}>
-          <img
-            src="assets/img/temp_down.png"
-            alt=""
-            style={{ width: 32 + "px", height: 32 + "px" }}
-          ></img>
-          <img
-            src="assets/img/sun_ok.png"
-            alt=""
-            style={{ width: 32 + "px", height: 32 + "px" }}
-          ></img>
-          <img
-            src="assets/img/rain_ok.png"
-            alt=""
-            style={{ width: 32 + "px", height: 32 + "px" }}
-          ></img>
-        </div>
-      </div>
-    </div>
-  );
-});
 
 const initialPlants = [
   {
@@ -52,7 +17,7 @@ const initialPlants = [
   },
 ];
 
-const DropContainer = ({ onCardClick, plantCurrent, plants, onAddPlant }) => {
+const DropContainer = ({ onCardClick, plants, onAddPlant }) => {
   const dropItems = useRef(null);
   const [showPlusSign, setShowPlusSign] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -121,28 +86,6 @@ const DropContainer = ({ onCardClick, plantCurrent, plants, onAddPlant }) => {
   );
 };
 
-const NoAnimations = () => {
-  useEffect(() => {
-    const handleMouseDown = () => {
-      document.body.classList.add("no-animations");
-    };
-
-    const handleMouseUp = () => {
-      document.body.classList.remove("no-animations");
-    };
-
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
-
-  return null;
-};
-
 const App = () => {
   const [plantCurrent, setPlantCurrent] = useState(plantCurrentDefault);
   const [plants, setPlants] = useState(initialPlants);
@@ -161,48 +104,7 @@ const App = () => {
 
   return (
     <div className="drop">
-      <div className="drop__background">
-        <img
-          src={plantCurrent}
-          alt=""
-          className="drop__img"
-          style={{
-            position: "absolute",
-            width: "330px",
-            height: "330px",
-            borderRadius: "50%",
-            right: "12rem",
-            top: "-0.25rem",
-            boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
-          }}
-        />
-        <br />
-        <br />
-        <div className="card">
-          <img
-            src="assets/img/temp.png"
-            style={{ width: "32px", height: "32px" }}
-            alt=""
-          />
-        </div>
-        <br />
-        <div className="card">
-          <img
-            src="assets/img/sun.png"
-            style={{ width: "32px", height: "32px" }}
-            alt=""
-          />
-        </div>
-        <br />
-        <div className="card">
-          <img
-            src="assets/img/rain.png"
-            style={{ width: "32px", height: "32px" }}
-            alt=""
-          />
-        </div>
-        <br />
-      </div>
+      <MainPlant plantCurrent={plantCurrent} />
       <DropContainer
         onCardClick={handleCardClick}
         plantCurrent={plantCurrent}
