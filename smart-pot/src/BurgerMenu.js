@@ -11,9 +11,6 @@ const BurgerMenu = () => {
       <a className="menu-item" href="/login">
         Login
       </a>
-      <a className="menu-item" href="/register">
-        Register
-      </a>
       <a className="menu-item" href="/pizzas">
         Test
       </a>
