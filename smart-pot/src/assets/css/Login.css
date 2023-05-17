@@ -73,7 +73,7 @@ body {
 }
 .form input.button {
   color: #fff;
-  background: #009579;
+  background: rgb(119, 187, 122);
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -83,7 +83,7 @@ body {
   box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
 }
 .form input.button:hover {
-  background: rgb(119, 187, 122);
+  background: rgb(93, 150, 95);
 }
 .signup {
   font-size: 17px;
