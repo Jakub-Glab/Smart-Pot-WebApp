@@ -4,6 +4,9 @@ import React, { useState } from "react";
 const PlantFormModal = ({ show, onClose, onSubmit }) => {
   const [name, setName] = useState("");
   const [id, setId] = useState("");
+  const [hum, setHum] = useState("");
+  const [temp, setTemp] = useState("");
+  const [lux, setLux] = useState("");
   const [imgSrc, setImgSrc] = useState("assets/img/plant1.png");
 
   const plantImages = [
@@ -19,6 +22,9 @@ const PlantFormModal = ({ show, onClose, onSubmit }) => {
     onSubmit({ name, id, imgSrc });
     setName("");
     setId("");
+    setHum("");
+    setTemp("");
+    setLux("");
     setImgSrc("assets/img/plant1.png");
     onClose();
   };

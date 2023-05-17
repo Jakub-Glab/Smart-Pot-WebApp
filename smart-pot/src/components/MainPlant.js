@@ -1,50 +1,21 @@
 import React from "react";
+import SensorCard from "./SensorCard";
+import CurrentPlantImage from "./CurrentPlantImg";
 
-const MainPlant = ({ plantCurrent }) => {
+const MainPlant = React.memo(({ plantCurrent, temp, hum, lux }) => {
   return (
     <div className="drop__background">
-      <img
-        src={plantCurrent}
-        alt=""
-        className="drop__img"
-        style={{
-          position: "absolute",
-          width: "330px",
-          height: "330px",
-          borderRadius: "50%",
-          right: "12rem",
-          top: "-0.25rem",
-          boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
-        }}
-      />
+      <CurrentPlantImage src={plantCurrent} />
       <br />
       <br />
-      <div className="card">
-        <img
-          src="assets/img/temp.png"
-          style={{ width: "32px", height: "32px" }}
-          alt=""
-        />
-      </div>
+      <SensorCard sensor="temp" value={temp} unit="°C" />
       <br />
-      <div className="card">
-        <img
-          src="assets/img/sun.png"
-          style={{ width: "32px", height: "32px" }}
-          alt=""
-        />
-      </div>
+      <SensorCard sensor="lux" value={lux} unit="lx" />
       <br />
-      <div className="card">
-        <img
-          src="assets/img/rain.png"
-          style={{ width: "32px", height: "32px" }}
-          alt=""
-        />
-      </div>
+      <SensorCard sensor="hum" value={hum} unit="%" />
       <br />
     </div>
   );
-};
+});
 
 export default MainPlant;

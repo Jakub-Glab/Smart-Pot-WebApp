@@ -55,13 +55,16 @@ img {
   height: 100vh;
   justify-content: center;
   position: relative;
+  align-items: center;
+  display: flex;
 }
 
 .drop__background {
   position: absolute;
   left: 46.75rem;
-  top: 2rem;
+  top: 6rem;
   right: 46.75rem;
+  width: 26.5rem;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   height: 30rem;
@@ -73,7 +76,7 @@ img {
 
 .drop__container {
   position: absolute;
-  top: 20rem;
+  top: 26rem;
   row-gap: 1rem;
   padding: 2rem;
   left: 46.75rem;
@@ -83,6 +86,7 @@ img {
   border-top-right-radius: 2rem;
   background-color: #f8f8fc;
   box-shadow: 4px 4px 16px #e1e1e1;
+  width: 26.5rem;
 }
 
 .drop__container.with-shade::before {
@@ -93,6 +97,17 @@ img {
   right: 0;
   height: 20%;
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+  pointer-events: none;
+}
+
+.drop__container.with-shade.show-plus::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
   pointer-events: none;
 }
 
@@ -215,6 +230,9 @@ img {
   max-width: 400px;
 }
 
+img {
+  box-shadow: none !important;
+}
 .image-gallery {
   display: flex;
   flex-wrap: wrap;
@@ -231,7 +249,7 @@ img {
 
 .gallery-image.selected {
   border-color: #007bff;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 8px 8px 12px 0px rgba(66, 68, 90, 1);
 }
 .modal {
   padding: 2rem;

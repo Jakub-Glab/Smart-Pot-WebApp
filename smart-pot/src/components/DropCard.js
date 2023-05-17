@@ -7,21 +7,23 @@ const DropCard = React.memo(({ id, imgSrc, name, profession, onClick }) => {
         <img src={imgSrc} alt="" className="drop__img" />
         <div>
           <h1 className="drop__name">{name}</h1>
-          <span className="drop__profession">{profession}</span>
         </div>
-        <div style={{ float: "right" }}>
+        <div className="Sensors" style={{ float: "right" }}>
           <img
-            src="assets/img/temp_down.png"
+            className="temp"
+            src="assets/img/temp.png"
             alt=""
             style={{ width: 32 + "px", height: 32 + "px", float: "right" }}
           ></img>
           <img
-            src="assets/img/sun_ok.png"
+            className="sun"
+            src="assets/img/sun.png"
             alt=""
             style={{ width: 32 + "px", height: 32 + "px", float: "right" }}
           ></img>
           <img
-            src="assets/img/rain_ok.png"
+            className="rain"
+            src="assets/img/rain.png"
             alt=""
             style={{ width: 32 + "px", height: 32 + "px", float: "right" }}
           ></img>
