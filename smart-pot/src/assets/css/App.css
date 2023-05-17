@@ -25,6 +25,7 @@
 
 body {
   zoom: reset;
+  width: 100%;
   margin: 0;
   padding: 0;
   font-family: var(--body-font);
@@ -61,9 +62,8 @@ img {
 
 .drop__background {
   position: absolute;
-  left: 46.75rem;
+  left: 50% - (width/2);
   top: 6rem;
-  right: 46.75rem;
   width: 26.5rem;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
@@ -79,8 +79,7 @@ img {
   top: 26rem;
   row-gap: 1rem;
   padding: 2rem;
-  left: 46.75rem;
-  right: 46.75rem;
+  left: 50% - (width/2);
   padding-top: 5rem;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
