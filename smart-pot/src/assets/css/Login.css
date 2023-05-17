@@ -21,7 +21,6 @@ body {
   background: #f8f8fc;
   border-radius: 2rem;
   box-shadow: 4px 4px 16px #e1e1e1;
-  -webkit-transition: 1s ease-in-out;
   transition: 1s ease-in;
 }
 .container .registration {
@@ -84,7 +83,7 @@ body {
   box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
 }
 .form input.button:hover {
-  background: #006653;
+  background: rgb(119, 187, 122);
 }
 .signup {
   font-size: 17px;
