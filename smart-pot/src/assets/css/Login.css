@@ -13,7 +13,7 @@ body {
 }
 .container {
   position: absolute;
-  top: 50%;
+  top: 19.5rem;
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 430px;
@@ -21,7 +21,7 @@ body {
   background: #f8f8fc;
   border-radius: 2rem;
   box-shadow: 4px 4px 16px #e1e1e1;
-  transition: 1s ease-in;
+  transition: height 1s ease-in;
 }
 .container .registration {
   display: none;
