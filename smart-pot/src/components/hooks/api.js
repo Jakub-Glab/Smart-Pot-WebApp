@@ -9,6 +9,7 @@ const API = axios.create({
     "Content-Type": "application/json",
     "WWW-Authenticate": "Bearer",
     "ngrok-skip-browser-warning": "true",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 

@@ -7,14 +7,14 @@ import urlData from "./assets/url.json";
 import { logout, removeAuthToken } from "./components/hooks/api";
 
 const BurgerMenu = ({ setShowModal }) => {
-  const { setUser } = useAuth(); // Get setUser from AuthContext
+  const { setUser, logout } = useAuth(); // Get setUser from AuthContext
 
   const logoutuser = async () => {
     try {
       const response = await logout();
       if (response.status === 200) {
         await removeAuthToken(); // Remove the token from localStorage
-        setUser(null);
+        logout();
         setShowModal(true); // Show the modal popup
       }
     } catch (error) {
