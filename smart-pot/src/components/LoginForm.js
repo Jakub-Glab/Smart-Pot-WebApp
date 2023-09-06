@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../assets/css/Login.css";
-import urlData from "../assets/url.json";
-
-const querystring = require("querystring");
+import { useAuth } from "./AuthContext";
+import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
+import { setAuthToken, login, register } from "./hooks/api";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -11,11 +11,14 @@ const LoginForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [fullName, setFullName] = useState("");
+  const [navigateToApp, setNavigateToApp] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [actionType, setActionType] = useState(null); // New state for modal message
 
-  const URL = urlData.url;
-  //const URL = "http://a472-83-20-164-34.ngrok-free.app";
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
-  // Clear input fields when switching between forms
   useEffect(() => {
     setEmail("");
     setPassword("");
@@ -25,26 +28,16 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(
-        URL + "/api/v1/token",
-        querystring.stringify({
-          username: email,
-          password: password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "WWW-Authenticate": "Bearer",
-          },
-        }
-      );
-      console.log(response.data.access_token);
-      localStorage.setItem("accessToken", response.data.access_token);
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${response.data.access_token}`;
+      const response = await login(email, password);
+      if (response.access_token) {
+        localStorage.setItem("accessToken", response.access_token);
+        setAuthToken(response.access_token);
+        setUser({ token: response.access_token, email });
+        setModalMessage("Successfully Logged In!");
+        setActionType("login");
+        setShowModal(true);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -52,30 +45,41 @@ const LoginForm = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       console.error("Passwords do not match");
       return;
     }
-
     try {
-      const response_register = await axios.post(URL + "/api/v1/registration", {
-        full_name: fullName,
-        email: email,
-        password: password,
-        is_active: true,
-      });
-
-      // redirect to login page
-      console.log(response_register.data.message);
+      const response_register = await register(fullName, email, password); // Modify this line as per your register API method
+      setModalMessage(response_register.message);
+      setActionType("register");
+      setShowModal(true);
     } catch (err) {
       console.error(err);
-      // display error message
     }
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+    if (actionType === "login") {
+      setNavigateToApp(true);
+    } else if (actionType === "register") {
+      setIsLogin(true);
+      setActionType(null);
+    }
+  };
+
+  useEffect(() => {
+    if (navigateToApp) {
+      navigate("/");
+    }
+  }, [navigateToApp]);
+
   return (
     <div className="container">
+      <Modal show={showModal} onClose={closeModal}>
+        {modalMessage} {/* Render the modal message */}
+      </Modal>
       <input
         type="checkbox"
         id="check"
