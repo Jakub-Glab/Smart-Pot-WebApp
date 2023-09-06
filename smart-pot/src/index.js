@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./assets/css/index.css";
 import App from "./App";
@@ -9,8 +9,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Modal from "./components/Modal"; // Import Modal
 
-const AppRoutes = () => {
+const AppRoutes = ({ setShowMenu }) => {
   const { user, isLoading } = useAuth();
+
+  // Update whether the menu should show or not
+  useEffect(() => {
+    setShowMenu(!!user);
+  }, [user, setShowMenu]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,6 +39,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const MainComponent = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false); // State to control whether to show menu or not
 
   return (
     <React.StrictMode>
@@ -42,13 +48,15 @@ const MainComponent = () => {
           {console.log("Successfully Logged Out!")} Successfully Logged Out!
         </Modal>
         <div className="App" id="outer-container">
-          <BurgerMenu
-            pageWrapId={"page-wrap"}
-            outerContainerId={"outer-container"}
-            setShowModal={setShowModal}
-          />
+          {showMenu && ( // Only display if showMenu is true
+            <BurgerMenu
+              pageWrapId={"page-wrap"}
+              outerContainerId={"outer-container"}
+              setShowModal={setShowModal}
+            />
+          )}
           <Router>
-            <AppRoutes setShowModal={setShowModal} />
+            <AppRoutes setShowMenu={setShowMenu} />
           </Router>
         </div>
       </AuthProvider>
