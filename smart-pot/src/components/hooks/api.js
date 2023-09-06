@@ -1,8 +1,6 @@
 import axios from "axios";
 import urlData from "../../assets/url.json";
 
-const querystring = require("querystring");
-
 const API = axios.create({
   baseURL: urlData.url,
   headers: {
@@ -21,6 +19,17 @@ const removeAuthToken = () => {
   delete API.defaults.headers.common["Authorization"];
 };
 
+const refreshToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  const body = {
+    refresh_token: refreshToken,
+  };
+  const response = await API.post("/api/v1/token/refresh", body);
+  localStorage.setItem("accessToken", response.data.access_token);
+  localStorage.setItem("refreshToken", response.data.refresh_token);
+  setAuthToken(response.data.access_token);
+};
+
 const login = async (email, password) => {
   const body = {
     email: email,
@@ -28,7 +37,7 @@ const login = async (email, password) => {
   };
 
   const response = await API.post("/api/v1/token", body);
-  return response.data;
+  return response;
 };
 
 const register = async (fullName, email, password) => {
@@ -39,7 +48,7 @@ const register = async (fullName, email, password) => {
   };
 
   const response = await API.post("/api/v1/registration", body);
-  return response.data;
+  return response;
 };
 
 const logout = async () => {
@@ -48,9 +57,21 @@ const logout = async () => {
 };
 
 const getPlantData = async (plantId) => {
-  const response = await API.get(`/api/v1/plants/${plantId}`);
+  let response = await API.get(`/api/v1/plants/${plantId}`);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.get(`/api/v1/plants/${plantId}`);
+  }
   return response;
 };
 
 // Exporting as named exports
-export { setAuthToken, removeAuthToken, login, logout, register, getPlantData };
+export {
+  setAuthToken,
+  removeAuthToken,
+  login,
+  logout,
+  register,
+  getPlantData,
+  refreshToken,
+};

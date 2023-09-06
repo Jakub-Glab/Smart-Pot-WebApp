@@ -15,9 +15,9 @@ const LoginForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [actionType, setActionType] = useState(null); // New state for modal message
+  const { user, setUserContext } = useAuth();
 
   const navigate = useNavigate();
-  const { setUser } = useAuth();
 
   useEffect(() => {
     setEmail("");
@@ -30,10 +30,10 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      if (response.access_token) {
-        localStorage.setItem("accessToken", response.access_token);
-        setAuthToken(response.access_token);
-        setUser({ token: response.access_token, email });
+      if (response.status === 200) {
+        localStorage.setItem("accessToken", response.data.access_token);
+        localStorage.setItem("refreshToken", response.data.refresh_token);
+        setAuthToken(response.data.access_token);
         setModalMessage("Successfully Logged In!");
         setActionType("login");
         setShowModal(true);
@@ -51,7 +51,7 @@ const LoginForm = () => {
     }
     try {
       const response_register = await register(fullName, email, password); // Modify this line as per your register API method
-      setModalMessage(response_register.message);
+      setModalMessage(response_register.data.message);
       setActionType("register");
       setShowModal(true);
     } catch (err) {
@@ -62,6 +62,8 @@ const LoginForm = () => {
   const closeModal = () => {
     setShowModal(false);
     if (actionType === "login") {
+      setUserContext();
+      console.log(user);
       setNavigateToApp(true);
     } else if (actionType === "register") {
       setIsLogin(true);
@@ -78,7 +80,7 @@ const LoginForm = () => {
   return (
     <div className="container">
       <Modal show={showModal} onClose={closeModal}>
-        {modalMessage} {/* Render the modal message */}
+        {modalMessage} {/* Display the modal message */}
       </Modal>
       <input
         type="checkbox"

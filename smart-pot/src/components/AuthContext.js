@@ -10,23 +10,29 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const logout = () => {
-    localStorage.removeItem("accessToken"); // remove the token from local storage
-    setUser(null); // set the user state to null
+  const clearAuthContext = () => {
+    localStorage.removeItem("accessToken");
+    setUser(null);
+  };
+
+  const setUserContext = () => {
+    const accesToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (accesToken && refreshToken) {
+      setUser({ accesToken, refreshToken });
+    }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      setUser({ token });
-    }
+    setUserContext();
     setIsLoading(false);
   }, []);
 
   const value = {
     user,
     setUser,
-    logout,
+    clearAuthContext,
+    setUserContext,
   };
 
   return (

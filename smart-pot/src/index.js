@@ -10,19 +10,14 @@ import LoginForm from "./components/LoginForm";
 import Modal from "./components/Modal"; // Import Modal
 
 const AppRoutes = () => {
-  const { user, isLoading } = useAuth(); // <-- Get isLoading
-  const [showModal, setShowModal] = useState(false);
+  const { user, isLoading } = useAuth();
 
-  // Wait for loading to complete before rendering routes
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        Successfully Logged Out!
-      </Modal>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         {user ? (
@@ -44,7 +39,7 @@ const MainComponent = () => {
     <React.StrictMode>
       <AuthProvider>
         <Modal show={showModal} onClose={() => setShowModal(false)}>
-          Successfully Logged Out!
+          {console.log("Successfully Logged Out!")} Successfully Logged Out!
         </Modal>
         <div className="App" id="outer-container">
           <BurgerMenu
