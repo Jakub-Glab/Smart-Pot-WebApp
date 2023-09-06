@@ -10,7 +10,7 @@ import plantCurrentDefault from "./assets/img/plant4round.png";
 
 const initialPlants = [
   {
-    id: "plantTest",
+    id: "3",
     imgSrc: "assets/img/plant1.png",
     name: "PlantTest",
     hum: "",

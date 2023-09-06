@@ -1,34 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPlantData } from "./api";
 
 const usePlantData = (initialPlants) => {
   const [plants, setPlants] = useState(initialPlants);
 
   const getData = async () => {
     try {
-      const response = await fetch(
-        "https://smart-pot-api-default-rtdb.firebaseio.com/Plants.json"
-      );
-      const data = await response.json();
-      const fetchedPlants = Object.values(data);
+      for (let plant of plants) {
+        const response = await getPlantData(plant.id);
+        const data = response.data;
 
-      const updatedPlants = plants.map((plant) => {
-        const fetchedPlant = fetchedPlants.find((p) => p.id === plant.id);
-        if (fetchedPlant) {
-          return {
-            ...plant,
-            temp: fetchedPlant.sensors.temp,
-            hum: fetchedPlant.sensors.hum,
-            lux: fetchedPlant.sensors.lux,
-          };
-        }
-        return plant;
-      });
-
-      setPlants(updatedPlants);
+        plant.temp = data.temperature;
+        plant.hum = data.humidity;
+        plant.lux = data.lux;
+        plant.name = data.name;
+      }
+      setPlants([...plants]); // Clone to trigger a re-render
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData();
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup function to clear the interval when the component unmounts
+  }, [plants]);
 
   return { plants, setPlants, getData };
 };
