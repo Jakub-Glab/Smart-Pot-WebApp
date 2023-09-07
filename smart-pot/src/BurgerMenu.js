@@ -9,9 +9,9 @@ const BurgerMenu = ({ setShowModal }) => {
 
   const logoutuser = async () => {
     try {
-      await logout();
       await removeAuthToken(); // Remove the token from localStorage
       clearAuthContext();
+      await logout();
       setShowModal(true);
     } catch (error) {
       console.error("Failed to log out", error);
