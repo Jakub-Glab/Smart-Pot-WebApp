@@ -52,6 +52,7 @@ const register = async (fullName, email, password) => {
 };
 
 const logout = async () => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
   const response = await API.post("/api/v1/logout");
   return response;
 };
