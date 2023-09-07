@@ -31,8 +31,8 @@ const LoginForm = () => {
     try {
       const response = await login(email, password);
       if (response.status === 200) {
-        localStorage.setItem("accessToken", response.data.access_token);
-        localStorage.setItem("refreshToken", response.data.refresh_token);
+        sessionStorage.setItem("accessToken", response.data.access_token);
+        sessionStorage.setItem("refreshToken", response.data.refresh_token);
         setAuthToken(response.data.access_token);
         setModalMessage("Successfully Logged In!");
         setActionType("login");

@@ -11,13 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const clearAuthContext = () => {
-    localStorage.removeItem("accessToken");
+    sessionStorage.removeItem("accessToken");
     setUser(null);
   };
 
   const setUserContext = () => {
-    const accesToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
+    const accesToken = sessionStorage.getItem("accessToken");
+    const refreshToken = sessionStorage.getItem("refreshToken");
     if (accesToken && refreshToken) {
       setUser({ accesToken, refreshToken });
     }

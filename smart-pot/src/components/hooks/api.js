@@ -20,13 +20,13 @@ const removeAuthToken = () => {
 };
 
 const refreshToken = async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = sessionStorage.getItem("refreshToken");
   const body = {
     refresh_token: refreshToken,
   };
   const response = await API.post("/api/v1/token/refresh", body);
-  localStorage.setItem("accessToken", response.data.access_token);
-  localStorage.setItem("refreshToken", response.data.refresh_token);
+  sessionStorage.setItem("accessToken", response.data.access_token);
+  sessionStorage.setItem("refreshToken", response.data.refresh_token);
   setAuthToken(response.data.access_token);
 };
 
