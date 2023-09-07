@@ -25,7 +25,9 @@ const BurgerMenu = ({ setShowModal }) => {
       <a className="menu-item" href="/">
         Home
       </a>
-      <a className="menu-item">Manage plants</a>
+      <a className="menu-item" href="/manage-plants">
+        Manage plants
+      </a>
       <a className="menu-item" onClick={logoutuser}>
         Log Out
       </a>
