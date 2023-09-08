@@ -68,37 +68,61 @@ export const getPlantData = async (plantId) => {
 
 export const getDevices = async () => {
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.get(`/api/v1/devices/`);
+  let response = await API.get(`/api/v1/devices/`);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.get(`/api/v1/devices/`);
+  }
   return response;
 };
 
 export const getPlants = async () => {
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.get(`/api/v1/plants/`);
+  let response = await API.get(`/api/v1/plants/`);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.get(`/api/v1/plants/`);
+  }
   return response;
 };
 
 export const createNewPlant = async (payload) => {
   //console.log(payload);
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.post(`/api/v1/plants/new-plant`, payload);
+  let response = await API.post(`/api/v1/plants/new-plant`, payload);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.post(`/api/v1/plants/new-plant`, payload);
+  }
   return response;
 };
 
 export const createNewDevice = async (payload) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.post(`/api/v1/devices/create-new-device`, payload);
+  let response = await API.post(`/api/v1/devices/create-new-device`, payload);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.post(`/api/v1/devices/create-new-device`, payload);
+  }
   return response;
 };
 
 export const deletePlant = async (plantId) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.delete(`/api/v1/plants/${plantId}`);
+  let response = await API.delete(`/api/v1/plants/${plantId}`);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.delete(`/api/v1/plants/${plantId}`);
+  }
   return response;
 };
 
 export const deleteDevice = async (deviceId) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
-  const response = await API.delete(`/api/v1/devices/${deviceId}`);
+  let response = await API.delete(`/api/v1/devices/${deviceId}`);
+  if (response.status === 401) {
+    await refreshToken();
+    response = await API.delete(`/api/v1/devices/${deviceId}`);
+  }
   return response;
 };

@@ -24,6 +24,9 @@ const ManagePlants = () => {
   const [deviceToDelete, setDeviceToDelete] = useState(null);
   const [modalMessage, setModalMessage] = useState("");
   const [deletingEntityType, setDeletingEntityType] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState("");
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   const deviceImg = "../assets/img/device.png";
 
@@ -37,7 +40,16 @@ const ManagePlants = () => {
     }
   };
 
-  const handleDeviceClick = (deviceId) => {
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log("Text successfully copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text to clipboard", err);
+    }
+  };
+
+  const handleDeviceClick = async (e, deviceId) => {
     console.log(deviceId);
     if (buttonClicked) {
       setModalMessage("Are you sure you want to delete this device?");
@@ -45,6 +57,18 @@ const ManagePlants = () => {
       setDeletingEntityType("device");
       setShowModal(true);
       setButtonClicked(false);
+    } else {
+      const rect = e.currentTarget
+        .closest(".container")
+        .getBoundingClientRect();
+      const x = e.clientX - rect.left; // x position within the container
+      const y = e.clientY - rect.top;
+      setTooltipPosition({ x: x, y: y });
+      setTooltipMessage("ID Copied to Clipboard!");
+      setShowTooltip(true);
+
+      setTimeout(() => setShowTooltip(false), 2000); // Hides tooltip after 2 seconds
+      await copyToClipboard(deviceId);
     }
   };
 
@@ -114,89 +138,108 @@ const ManagePlants = () => {
 
     const response = await createNewDevice(payload);
     if (response.status === 200) {
-      setPlants([...plants, response.data]);
+      setDevices([...devices, response.data]);
     }
   };
 
   return (
     <div className="container">
       {showPlantFormModal || showDeviceFormModal ? null : (
-        <div className="container">
-          <div className="form">
-            <header>Manage Plants</header>
-
-            <div className="info__container">
-              <h2>Devices</h2>
-              <ul>
-                {devices.map((device, index) => (
-                  <li
-                    key={index}
-                    className={`info__card ${buttonClicked ? "jigglele" : ""}`}
-                    onClick={() => handleDeviceClick(device.id)}
-                  >
-                    <div className="info__data">
-                      <img src={deviceImg} alt="device" className="info__img" />
-                      <div>
-                        <p className="info__name">{device.name}</p>
-                        <p className="info__id">{device.id}</p>
-                      </div>
+        <div className="form">
+          <header>Manage Plants</header>
+          <div className="info__container">
+            <h2>
+              Devices
+              <div
+                className="addDevice-sign"
+                style={{ float: "right", marginRight: "10%" }}
+                onClick={() => {
+                  setTimeout(() => {
+                    setShowDeviceFormModal(true);
+                  }, 200);
+                }}
+              >
+                <img
+                  className="addDevice-sign"
+                  src="assets/img/plus.png"
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    backgroundColor: "transparent",
+                  }}
+                  alt=""
+                />
+              </div>
+            </h2>
+            <ul>
+              {devices.map((device, index) => (
+                <li
+                  key={index}
+                  className={`info__card ${buttonClicked ? "jigglele" : ""}`}
+                  onClick={(e) => handleDeviceClick(e, device.id)}
+                >
+                  <div className="info__data">
+                    <img src={deviceImg} alt="device" className="info__img" />
+                    <div>
+                      <p className="info__name">{device.name}</p>
+                      <p className="info__id">{device.id}</p>
                     </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <input
-              type="button"
-              className="button"
-              onClick={() => setShowDeviceFormModal(true)}
-              value="Add New Device"
-            />
-            <div>
-              <h2>Plants</h2>
-              <ul>
-                {plants.map((plant, index) => (
-                  <li
-                    key={index}
-                    className={`info__card ${buttonClicked ? "jigglele" : ""}`}
-                    onClick={() => handlePlantClick(plant.id)}
-                  >
-                    <div className="info__data">
-                      <img
-                        src={plant.imgsrc}
-                        alt="plant"
-                        className="info__img"
-                      />
-                      <div>
-                        <p className="info__name">{plant.name}</p>
-                        <p className="info__id">{plant.id}</p>
-                      </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <h2>
+              Plants
+              <div
+                className="addPlant-sign"
+                style={{ float: "right", marginRight: "10%" }}
+                onClick={() => {
+                  setTimeout(() => {
+                    setShowPlantFormModal(true);
+                  }, 200);
+                }}
+              >
+                <img
+                  className="addPlant-sign"
+                  src="assets/img/plus.png"
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    backgroundColor: "transparent",
+                  }}
+                  alt=""
+                />
+              </div>
+            </h2>
+            <ul>
+              {plants.map((plant, index) => (
+                <li
+                  key={index}
+                  className={`info__card ${buttonClicked ? "jigglele" : ""}`}
+                  onClick={() => handlePlantClick(plant.id)}
+                >
+                  <div className="info__data">
+                    <img src={plant.imgsrc} alt="plant" className="info__img" />
+                    <div>
+                      <p className="info__name">{plant.name}</p>
+                      <p className="info__id">{plant.id}</p>
                     </div>
-                  </li>
-                ))}
-              </ul>
-              <br></br>
-              <input
-                type="button"
-                className="button"
-                onClick={() => setShowPlantFormModal(true)}
-                value="Add New Plant"
-              />
-              <br></br>
-            </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
             <input
               type="button"
               className={`buttonDel ${buttonClicked ? "active" : ""}`}
               value="Delete"
               onClick={() => {
-                console.log(buttonClicked);
                 setButtonClicked(!buttonClicked);
               }}
             />
           </div>
-
           <div
             className="refresh-sign"
-            style={{ position: "absolute", top: "15%", right: "10%" }}
+            style={{ position: "absolute", top: "11%", right: "7%" }}
             onClick={() => {
               setRotationDegrees(rotationDegrees - 360);
               setTimeout(() => {
@@ -217,6 +260,19 @@ const ManagePlants = () => {
               alt=""
             />
           </div>
+          {showTooltip && (
+            <div
+              className="tooltip"
+              style={{
+                position: "absolute",
+                top: `${tooltipPosition.y}px`,
+                left: `${tooltipPosition.x + 15}px`,
+                zIndex: 1000,
+              }}
+            >
+              {tooltipMessage}
+            </div>
+          )}
         </div>
       )}
 
@@ -232,7 +288,7 @@ const ManagePlants = () => {
         onSubmit={handleCreateDevice}
       />
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        {modalMessage} {/* Display the modal message */}
+        {modalMessage}
         <button onClick={() => setShowModal(false)}>No</button>
         <button onClick={handleDeleteEntity}>Yes</button>
       </Modal>

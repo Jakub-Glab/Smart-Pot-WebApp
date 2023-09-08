@@ -26,6 +26,7 @@ const DropContainer = ({ onCardClick, onAddPlant }) => {
   }, []);
 
   const getNewPlants = async () => {
+    window.location.reload();
     const plantsResponse = await getPlants();
     setPlants(plantsResponse.data);
   };
