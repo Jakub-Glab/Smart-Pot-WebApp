@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../assets/css/Login.css";
 
 const DeviceFormModal = ({ show, onClose, onSubmit }) => {
   const [name, setName] = useState("");

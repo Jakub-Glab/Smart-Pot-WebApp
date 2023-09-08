@@ -14,17 +14,18 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
-@media screen and (max-width: 900px) {
-  .container {
-    max-width: 100vw;
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  .manageContainer {
+    --screen-size: 100vh;
   }
 }
-.container {
+.manageContainer {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 50vw;
+  max-width: var(--screen-size);
   max-height: 100vh;
   width: 100%;
   overflow: auto;
@@ -34,7 +35,7 @@ body::-webkit-scrollbar {
   transition: height 1s ease-in;
 }
 
-.container .form {
+.manageContainer .form {
   padding: 2rem;
 }
 .form header {
@@ -73,7 +74,7 @@ body::-webkit-scrollbar {
     50% - 1rem
   ); /* Adjust this value as per your requirement, 1rem here allows for some gap between the cards */
   justify-content: space-between;
-  min-width: 250px;
+  min-width: 95%;
   padding: 0.75rem 1.25rem 0.75rem 0.75rem;
   background-color: var(--first-color-lighten);
   box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
@@ -177,6 +178,7 @@ body::-webkit-scrollbar {
 h2 {
   margin: 0;
   display: inline-block;
+  width: 100%;
 }
 
 .addPlant-sign {

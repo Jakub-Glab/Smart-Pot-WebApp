@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const getSensorImage = (sensor, value) => {
   if (sensor === "temp") {
@@ -16,16 +16,30 @@ const getSensorImage = (sensor, value) => {
   }
 };
 
+const isSensorValueNotOk = (sensor, value) => {
+  if (sensor === "temp" && (value < 15 || value > 45)) return true;
+  if (sensor === "hum" && (value < 25 || value > 70)) return true;
+  if (sensor === "lux" && (value < 200 || value > 10000)) return true;
+  return false;
+};
+
 const SensorCard = ({ sensor, value, unit }) => {
+  const [isNotOk, setIsNotOk] = useState(false);
+
+  useEffect(() => {
+    setIsNotOk(isSensorValueNotOk(sensor, value));
+  }, [sensor, value]);
+
   return (
     <div
-      className="card"
+      className={`card ${isNotOk ? "jigglele" : ""}`}
       style={{
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
       }}
     >
+      {console.log(isNotOk)}
       <img
         className={`${sensor}Img`}
         src={getSensorImage(sensor, value)}

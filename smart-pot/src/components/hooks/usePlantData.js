@@ -1,35 +1,49 @@
 import { useState, useEffect } from "react";
-import { getPlantData } from "./api";
+import { getPlants, getPlantData } from "./api";
 
-const usePlantData = (initialPlants) => {
-  const [plants, setPlants] = useState(initialPlants);
+const usePlantData = () => {
+  // State to store the plant data
+  const [plants, setPlants] = useState([]);
 
-  const getData = async () => {
-    try {
-      for (let plant of plants) {
-        const response = await getPlantData(plant.id);
-        const data = response.data;
-
-        plant.temp = data.temperature;
-        plant.hum = data.humidity;
-        plant.lux = data.lux;
-        plant.name = data.name;
+  // Fetch initial plant data when the component mounts
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const response = await getPlants();
+        setPlants(response.data);
+      } catch (error) {
+        console.error("Error fetching initial plants:", error);
       }
-      setPlants([...plants]); // Clone to trigger a re-render
+    };
+
+    init();
+  }, []);
+
+  // Function to update individual plant data
+  const updatePlants = async () => {
+    try {
+      const updatedPlants = await Promise.all(
+        plants.map(async (plant) => {
+          const data = await getPlantData(plant.id);
+          return { ...data.data };
+        })
+      );
+      setPlants(updatedPlants);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error updating plants:", error);
     }
   };
 
+  // Set up a timer to update plant data periodically
   useEffect(() => {
     const interval = setInterval(() => {
-      getData();
+      updatePlants();
     }, 1000);
 
-    return () => clearInterval(interval); // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
   }, [plants]);
 
-  return { plants, setPlants, getData };
+  return { plants, setPlants, updatePlants };
 };
 
 export default usePlantData;

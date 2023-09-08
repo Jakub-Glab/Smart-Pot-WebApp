@@ -50,7 +50,6 @@ const ManagePlants = () => {
   };
 
   const handleDeviceClick = async (e, deviceId) => {
-    console.log(deviceId);
     if (buttonClicked) {
       setModalMessage("Are you sure you want to delete this device?");
       setDeviceToDelete(deviceId);
@@ -59,7 +58,7 @@ const ManagePlants = () => {
       setButtonClicked(false);
     } else {
       const rect = e.currentTarget
-        .closest(".container")
+        .closest(".manageContainer")
         .getBoundingClientRect();
       const x = e.clientX - rect.left; // x position within the container
       const y = e.clientY - rect.top;
@@ -123,7 +122,6 @@ const ManagePlants = () => {
     try {
       const response = await createNewPlant(payload);
       if (response.status === 201) {
-        console.log(response.data);
         setPlants([...plants, response.data]);
       }
     } catch (err) {
@@ -148,14 +146,14 @@ const ManagePlants = () => {
   };
 
   return (
-    <div className="container">
+    <div className="manageContainer">
       {showPlantFormModal || showDeviceFormModal ? null : (
         <div className="form">
           <header>
             Manage Plants
             <div
               className="refresh-sign"
-              style={{ float: "right", marginRight: "10%" }}
+              style={{ float: "right" }}
               onClick={() => {
                 setRotationDegrees(rotationDegrees - 360);
                 setTimeout(() => {
@@ -182,7 +180,7 @@ const ManagePlants = () => {
               Devices
               <div
                 className="addDevice-sign"
-                style={{ float: "right", marginRight: "10%" }}
+                style={{ float: "right" }}
                 onClick={() => {
                   setTimeout(() => {
                     setShowDeviceFormModal(true);
@@ -222,7 +220,7 @@ const ManagePlants = () => {
               Plants
               <div
                 className="addPlant-sign"
-                style={{ float: "right", marginRight: "10%" }}
+                style={{ float: "right" }}
                 onClick={() => {
                   setTimeout(() => {
                     setShowPlantFormModal(true);
