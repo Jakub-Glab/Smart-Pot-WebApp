@@ -26,7 +26,6 @@ const ManagePlants = () => {
   const [deletingEntityType, setDeletingEntityType] = useState(null);
 
   const deviceImg = "../assets/img/device.png";
-  const plantImg = "../assets/img/basic_plant.png";
 
   const handlePlantClick = (plantId) => {
     if (buttonClicked) {
@@ -89,6 +88,7 @@ const ManagePlants = () => {
       name: plantData.name,
       device_id: plantData.id,
       last_updated: new Date().toISOString(),
+      imgsrc: plantData.imgSrc,
       sensors: {
         humidity: 0,
         lux: 0,
@@ -101,15 +101,8 @@ const ManagePlants = () => {
     const response = await createNewPlant(payload);
     if (response.status === 201) {
       // Merge the response.data with the imgSrc from the form to update local state
-      let newPlantWithImgSrc = {
-        name: response.data.name,
-        device_id: response.data.device_id,
-        last_updated: response.data.last_updated,
-        sensors: response.data.sensors,
-        imgSrc: plantData.imgSrc,
-      };
-      console.log(newPlantWithImgSrc);
-      setPlants([...plants, newPlantWithImgSrc]);
+      console.log(response.data);
+      setPlants([...plants, response.data]);
     }
   };
 
@@ -169,7 +162,7 @@ const ManagePlants = () => {
                   >
                     <div className="info__data">
                       <img
-                        src={plant.imgSrc}
+                        src={plant.imgsrc}
                         alt="plant"
                         className="info__img"
                       />

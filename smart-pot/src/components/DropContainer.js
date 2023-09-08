@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Sortable from "sortablejs";
 import DropCard from "./DropCard";
+
 import { getPlants } from "./hooks/api"; // Make sure the import is correct
 
 const DropContainer = ({ onCardClick, onAddPlant }) => {
@@ -24,7 +25,7 @@ const DropContainer = ({ onCardClick, onAddPlant }) => {
     });
   }, []);
 
-  const getData = async () => {
+  const getNewPlants = async () => {
     const plantsResponse = await getPlants();
     setPlants(plantsResponse.data);
   };
@@ -35,7 +36,7 @@ const DropContainer = ({ onCardClick, onAddPlant }) => {
         <DropCard
           key={plant.id}
           id={plant.id}
-          imgSrc={plant.imgSrc}
+          imgSrc={plant.imgsrc}
           name={plant.name}
           onClick={() => onCardClick(plant.id)}
         />
@@ -44,7 +45,7 @@ const DropContainer = ({ onCardClick, onAddPlant }) => {
         className="refresh-sign"
         style={{ position: "absolute", top: "10%", right: "10%" }}
         onClick={() => {
-          getData();
+          getNewPlants();
           setRotationDegrees(rotationDegrees - 360);
         }}
       >

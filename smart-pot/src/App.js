@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DropContainer from "./components/DropContainer";
 import MainPlant from "./components/MainPlant";
 import usePlantData from "./components/hooks/usePlantData";
@@ -13,12 +13,25 @@ const App = () => {
   const [selectedPlant, setSelectedPlant] = useState(null);
   const { plants, setPlants, getData } = usePlantData([]);
 
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const plantsResponse = await getPlants();
+      setPlants(plantsResponse.data);
+      if (plantsResponse.data.length > 0) {
+        const firstPlant = plantsResponse.data[0];
+        setPlantCurrent(firstPlant.imgsrc.replace(".png", "round.png"));
+        setSelectedPlant(firstPlant);
+      }
+    };
+    fetchInitialData();
+  }, []);
+
   const handleCardClick = async (id) => {
     const plantsResponse = await getPlants();
     setPlants(plantsResponse.data);
     const clickedPlant = plants.find((plant) => plant.id === id);
     if (clickedPlant) {
-      //setPlantCurrent(clickedPlant.imgSrc.replace(".png", "round.png"));
+      setPlantCurrent(clickedPlant.imgsrc.replace(".png", "round.png"));
       setSelectedPlant(clickedPlant);
     }
   };
@@ -30,7 +43,7 @@ const App = () => {
   return (
     <div className="drop">
       <MainPlant
-        plantCurrent={plantCurrent}
+        plantCurrent={selectedPlant?.imgsrc}
         temp={selectedPlant?.temp}
         hum={selectedPlant?.hum}
         lux={selectedPlant?.lux}
