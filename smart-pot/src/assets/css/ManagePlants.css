@@ -9,6 +9,15 @@ body {
   min-height: 100vh;
   width: 100%;
   background: #f8f8fc;
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+@media screen and (max-width: 900px) {
+  .container {
+    max-width: 100vw;
+  }
 }
 .container {
   position: fixed;
@@ -16,8 +25,9 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 50vw;
+  max-height: 100vh;
   width: 100%;
-
+  overflow: auto;
   background: #f8f8fc;
   border-radius: 2rem;
   box-shadow: 4px 4px 16px #e1e1e1;
@@ -63,7 +73,7 @@ body {
     50% - 1rem
   ); /* Adjust this value as per your requirement, 1rem here allows for some gap between the cards */
   justify-content: space-between;
-  min-width: 300px;
+  min-width: 250px;
   padding: 0.75rem 1.25rem 0.75rem 0.75rem;
   background-color: var(--first-color-lighten);
   box-shadow: 4px 4px 16px #e1e1e1, -2px -2px 16px #fff;
