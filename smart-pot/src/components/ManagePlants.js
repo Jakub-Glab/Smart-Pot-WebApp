@@ -120,13 +120,18 @@ const ManagePlants = () => {
       },
     };
 
-    console.log(plantData.imgSrc);
-
-    const response = await createNewPlant(payload);
-    if (response.status === 201) {
-      // Merge the response.data with the imgSrc from the form to update local state
-      console.log(response.data);
-      setPlants([...plants, response.data]);
+    try {
+      const response = await createNewPlant(payload);
+      if (response.status === 201) {
+        console.log(response.data);
+        setPlants([...plants, response.data]);
+      }
+    } catch (err) {
+      if (err.response.status === 409) {
+        alert(
+          `Device with id: ${plantData.id} is already assigned to a plant!`
+        );
+      }
     }
   };
 
@@ -146,7 +151,32 @@ const ManagePlants = () => {
     <div className="container">
       {showPlantFormModal || showDeviceFormModal ? null : (
         <div className="form">
-          <header>Manage Plants</header>
+          <header>
+            Manage Plants
+            <div
+              className="refresh-sign"
+              style={{ float: "right", marginRight: "10%" }}
+              onClick={() => {
+                setRotationDegrees(rotationDegrees - 360);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 400);
+              }}
+            >
+              <img
+                className="refresh-sign"
+                src="assets/img/refresh.png"
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  backgroundColor: "transparent",
+                  transform: `rotate(${rotationDegrees}deg)`,
+                  transition: "transform 0.4s ease-in-out",
+                }}
+                alt=""
+              />
+            </div>
+          </header>
           <div className="info__container">
             <h2>
               Devices
@@ -237,29 +267,7 @@ const ManagePlants = () => {
               }}
             />
           </div>
-          <div
-            className="refresh-sign"
-            style={{ position: "absolute", top: "11%", right: "7%" }}
-            onClick={() => {
-              setRotationDegrees(rotationDegrees - 360);
-              setTimeout(() => {
-                window.location.reload();
-              }, 400);
-            }}
-          >
-            <img
-              className="refresh-sign"
-              src="assets/img/refresh.png"
-              style={{
-                width: "32px",
-                height: "32px",
-                backgroundColor: "transparent",
-                transform: `rotate(${rotationDegrees}deg)`,
-                transition: "transform 0.4s ease-in-out",
-              }}
-              alt=""
-            />
-          </div>
+
           {showTooltip && (
             <div
               className="tooltip"

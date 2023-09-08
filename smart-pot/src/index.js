@@ -42,33 +42,54 @@ const AppRoutes = ({ setShowMenu }) => {
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
 const MainComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false); // State to control whether to show menu or not
+  const { clearAuthContext } = useAuth();
+
+  useEffect(() => {
+    const handleClearAuth = () => {
+      if (clearAuthContext) {
+        // Check if function is available
+        clearAuthContext();
+        setShowModal(true);
+        console.log("Application error! You were logged out!");
+      }
+    };
+
+    window.addEventListener("clearAuth", handleClearAuth);
+
+    return () => {
+      window.removeEventListener("clearAuth", handleClearAuth);
+    };
+  }, [clearAuthContext]);
 
   return (
     <React.StrictMode>
-      <AuthProvider>
-        <Modal show={showModal} onClose={() => setShowModal(false)}>
-          {console.log("Successfully Logged Out!")} Successfully Logged Out!
-        </Modal>
-        <div className="App" id="outer-container">
-          {showMenu && ( // Only display if showMenu is true
-            <BurgerMenu
-              pageWrapId={"page-wrap"}
-              outerContainerId={"outer-container"}
-              setShowModal={setShowModal}
-            />
-          )}
-          <Router>
-            <AppRoutes setShowMenu={setShowMenu} />
-          </Router>
-        </div>
-      </AuthProvider>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        Successfully Logged Out!
+      </Modal>
+      <div className="App" id="outer-container">
+        {showMenu && ( // Only display if showMenu is true
+          <BurgerMenu
+            pageWrapId={"page-wrap"}
+            outerContainerId={"outer-container"}
+            setShowModal={setShowModal}
+          />
+        )}
+        <Router>
+          <AppRoutes setShowMenu={setShowMenu} />
+        </Router>
+      </div>
     </React.StrictMode>
   );
 };
 
-root.render(<MainComponent />);
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <AuthProvider>
+      <MainComponent />
+    </AuthProvider>
+  </React.StrictMode>
+);
