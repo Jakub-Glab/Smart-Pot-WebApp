@@ -8,6 +8,7 @@ import { useAuth } from "./components/AuthContext";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Modal from "./components/Modal"; // Import Modal
+import ManagePlants from "./components/ManagePlants";
 
 const AppRoutes = ({ setShowMenu }) => {
   const { user, isLoading } = useAuth();
@@ -29,6 +30,12 @@ const AppRoutes = ({ setShowMenu }) => {
           <Route path="/" element={<App />} />
         ) : (
           <Route path="/" element={<LoginForm />} />
+        )}
+        <Route path="/manage-plants" element={<ManagePlants />} />
+        {user ? (
+          <Route path="/manage-plants" element={<ManagePlants />} />
+        ) : (
+          <Route path="/manage-plants" element={<LoginForm />} />
         )}
       </Routes>
     </>

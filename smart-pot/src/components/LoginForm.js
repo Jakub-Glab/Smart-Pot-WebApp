@@ -39,20 +39,32 @@ const LoginForm = () => {
         setShowModal(true);
       }
     } catch (err) {
+      setModalMessage("Failed to Logg In!");
+      setActionType("failed_login");
+      setShowModal(true);
       console.error(err);
     }
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setActionType("register");
+    if (!fullName || !email || !password || !confirmPassword) {
+      setActionType("failed_register");
+      setModalMessage("Please fill in all the fields!");
+      setShowModal(true);
+      return;
+    }
     if (password !== confirmPassword) {
-      console.error("Passwords do not match");
+      setActionType("failed_register");
+      setModalMessage("Passwords do not match!");
+      setShowModal(true);
       return;
     }
     try {
       const response_register = await register(fullName, email, password); // Modify this line as per your register API method
       setModalMessage(response_register.data.message);
-      setActionType("register");
+
       setShowModal(true);
     } catch (err) {
       console.error(err);
@@ -65,8 +77,14 @@ const LoginForm = () => {
       setUserContext();
       console.log(user);
       setNavigateToApp(true);
+    } else if (actionType === "failed_login") {
+      setIsLogin(true);
+      setActionType(null);
     } else if (actionType === "register") {
       setIsLogin(true);
+      setActionType(null);
+    } else if (actionType === "failed_register") {
+      setIsLogin(false);
       setActionType(null);
     }
   };

@@ -11,15 +11,15 @@ const API = axios.create({
   },
 });
 
-const setAuthToken = (token) => {
+export const setAuthToken = (token) => {
   API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
-const removeAuthToken = () => {
+export const removeAuthToken = () => {
   delete API.defaults.headers.common["Authorization"];
 };
 
-const refreshToken = async () => {
+export const refreshToken = async () => {
   const refreshToken = sessionStorage.getItem("refreshToken");
   const body = {
     refresh_token: refreshToken,
@@ -30,7 +30,7 @@ const refreshToken = async () => {
   setAuthToken(response.data.access_token);
 };
 
-const login = async (email, password) => {
+export const login = async (email, password) => {
   const body = {
     email: email,
     password: password,
@@ -40,7 +40,7 @@ const login = async (email, password) => {
   return response;
 };
 
-const register = async (fullName, email, password) => {
+export const register = async (fullName, email, password) => {
   const body = {
     full_name: fullName,
     email: email,
@@ -51,13 +51,13 @@ const register = async (fullName, email, password) => {
   return response;
 };
 
-const logout = async () => {
+export const logout = async () => {
   setAuthToken(sessionStorage.getItem("accessToken"));
   const response = await API.post("/api/v1/logout");
   return response;
 };
 
-const getPlantData = async (plantId) => {
+export const getPlantData = async (plantId) => {
   let response = await API.get(`/api/v1/plants/${plantId}`);
   if (response.status === 401) {
     await refreshToken();
@@ -66,13 +66,39 @@ const getPlantData = async (plantId) => {
   return response;
 };
 
-// Exporting as named exports
-export {
-  setAuthToken,
-  removeAuthToken,
-  login,
-  logout,
-  register,
-  getPlantData,
-  refreshToken,
+export const getDevices = async () => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.get(`/api/v1/devices/`);
+  return response;
+};
+
+export const getPlants = async () => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.get(`/api/v1/plants/`);
+  return response;
+};
+
+export const createNewPlant = async (payload) => {
+  //console.log(payload);
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.post(`/api/v1/plants/new-plant`, payload);
+  return response;
+};
+
+export const createNewDevice = async (payload) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.post(`/api/v1/devices/create-new-device`, payload);
+  return response;
+};
+
+export const deletePlant = async (plantId) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.delete(`/api/v1/plants/${plantId}`);
+  return response;
+};
+
+export const deleteDevice = async (deviceId) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.delete(`/api/v1/devices/${deviceId}`);
+  return response;
 };
