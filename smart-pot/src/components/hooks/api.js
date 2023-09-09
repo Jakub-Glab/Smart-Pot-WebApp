@@ -1,9 +1,10 @@
 import axios from "axios";
 import urlData from "../../assets/url.json";
-import { useAuth } from "../AuthContext";
+
+let url = localStorage.getItem("customUrl") || urlData.url;
 
 const API = axios.create({
-  baseURL: urlData.url,
+  baseURL: url,
   headers: {
     "Content-Type": "application/json",
     "WWW-Authenticate": "Bearer",
@@ -11,6 +12,12 @@ const API = axios.create({
     "Access-Control-Allow-Origin": "*",
   },
 });
+
+export const updateAPIBaseURL = (newURL) => {
+  API.defaults.baseURL = newURL;
+  console.log(API.defaults.baseURL);
+  localStorage.setItem("customURL", newURL);
+};
 
 export const setAuthToken = (token) => {
   API.defaults.headers.common["Authorization"] = `Bearer ${token}`;

@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Modal from "./components/Modal"; // Import Modal
 import ManagePlants from "./components/ManagePlants";
+import { useNavigate } from "react-router-dom";
 
 const AppRoutes = ({ setShowMenu }) => {
   const { user, isLoading } = useAuth();
@@ -25,18 +26,12 @@ const AppRoutes = ({ setShowMenu }) => {
   return (
     <>
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        {user ? (
-          <Route path="/" element={<App />} />
-        ) : (
-          <Route path="/" element={<LoginForm />} />
-        )}
-        <Route path="/manage-plants" element={<ManagePlants />} />
-        {user ? (
-          <Route path="/manage-plants" element={<ManagePlants />} />
-        ) : (
-          <Route path="/manage-plants" element={<LoginForm />} />
-        )}
+        <Route path="/login" element={user ? <App /> : <LoginForm />} />
+        <Route
+          path="/manage-plants"
+          element={user ? <ManagePlants /> : <LoginForm />}
+        />
+        <Route path="/" element={user ? <App /> : <LoginForm />} />
       </Routes>
     </>
   );

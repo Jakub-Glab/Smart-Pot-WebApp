@@ -171,7 +171,7 @@ body::-webkit-scrollbar {
   box-shadow: 4px 4px 16px #d4d4d4, -2px -2px 16px #fff;
 }
 
-.jigglele {
+.jiggle-card {
   animation: jiggle2 0.2s infinite;
 }
 

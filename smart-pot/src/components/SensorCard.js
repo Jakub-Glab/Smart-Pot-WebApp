@@ -32,14 +32,13 @@ const SensorCard = ({ sensor, value, unit }) => {
 
   return (
     <div
-      className={`card ${isNotOk ? "jigglele" : ""}`}
+      className={`card ${isNotOk ? "jiggle-sensord-card" : ""}`}
       style={{
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
       }}
     >
-      {console.log(isNotOk)}
       <img
         className={`${sensor}Img`}
         src={getSensorImage(sensor, value)}

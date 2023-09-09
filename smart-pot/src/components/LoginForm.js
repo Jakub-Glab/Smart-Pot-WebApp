@@ -3,7 +3,7 @@ import "../assets/css/Login.css";
 import { useAuth } from "./AuthContext";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
-import { setAuthToken, login, register } from "./hooks/api";
+import { setAuthToken, login, register, updateAPIBaseURL } from "./hooks/api";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -14,10 +14,19 @@ const LoginForm = () => {
   const [navigateToApp, setNavigateToApp] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [actionType, setActionType] = useState(null); // New state for modal message
+  const [actionType, setActionType] = useState(null);
   const { user, setUserContext } = useAuth();
+  const [customURL, setCustomURL] = useState(
+    localStorage.getItem("customURL") || ""
+  );
 
   const navigate = useNavigate();
+
+  const handleSetCustomURL = (e) => {
+    e.preventDefault();
+    updateAPIBaseURL(customURL);
+    console.log(`Custom url set: ${customURL}`);
+  };
 
   useEffect(() => {
     setEmail("");
@@ -76,7 +85,7 @@ const LoginForm = () => {
     if (actionType === "login") {
       setUserContext();
       console.log(user);
-      setNavigateToApp(true);
+      navigate("/");
     } else if (actionType === "failed_login") {
       setIsLogin(true);
       setActionType(null);
@@ -96,81 +105,94 @@ const LoginForm = () => {
   }, [navigateToApp]);
 
   return (
-    <div className="container">
-      <Modal show={showModal} onClose={closeModal}>
-        {modalMessage} {/* Display the modal message */}
-      </Modal>
-      <input
-        type="checkbox"
-        id="check"
-        checked={!isLogin}
-        onChange={() => setIsLogin(!isLogin)}
-      />
-      {isLogin ? (
-        <div className="form">
-          {/* Login form */}
-          <header>Login</header>
-          <form onSubmit={handleLogin}>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input type="submit" className="button" value="Login" />
-          </form>
-          <div className="signup">
-            <span className="signup">
-              Don't have an account?
-              <label htmlFor="check"> Signup</label>
-            </span>
+    <div>
+      <div className="container">
+        <Modal show={showModal} onClose={closeModal}>
+          {modalMessage} {/* Display the modal message */}
+        </Modal>
+        <input
+          type="checkbox"
+          id="check"
+          checked={!isLogin}
+          onChange={() => setIsLogin(!isLogin)}
+        />
+        {isLogin ? (
+          <div className="form">
+            {/* Login form */}
+            <header>Login</header>
+            <form onSubmit={handleLogin}>
+              <input
+                type="text"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <input type="submit" className="button" value="Login" />
+            </form>
+            <div className="signup">
+              <span className="signup">
+                Don't have an account?
+                <label htmlFor="check"> Signup</label>
+              </span>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="form">
-          {/* Register form */}
-          <header>Signup</header>
-          <form onSubmit={handleRegister}>
-            <input
-              type="text"
-              placeholder="Enter your full name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <input type="submit" className="button" value="Signup" />
-          </form>
-          <div className="signup">
-            <span className="signup">
-              Already have an account?
-              <label htmlFor="check"> Login</label>
-            </span>
+        ) : (
+          <div className="form">
+            {/* Register form */}
+            <header>Signup</header>
+            <form onSubmit={handleRegister}>
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <input type="submit" className="button" value="Signup" />
+            </form>
+            <div className="signup">
+              <span className="signup">
+                Already have an account?
+                <label htmlFor="check"> Login</label>
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      <form onSubmit={handleSetCustomURL}>
+        <input
+          type="text"
+          placeholder="Custom URL"
+          value={customURL}
+          onChange={(e) => {
+            setCustomURL(e.target.value);
+          }}
+        />
+        <input type="submit" value="Set Custom URL" />
+      </form>
     </div>
   );
 };

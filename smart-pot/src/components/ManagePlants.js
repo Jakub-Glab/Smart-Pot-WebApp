@@ -203,7 +203,7 @@ const ManagePlants = () => {
               {devices.map((device, index) => (
                 <li
                   key={index}
-                  className={`info__card ${buttonClicked ? "jigglele" : ""}`}
+                  className={`info__card ${buttonClicked ? "jiggle-card" : ""}`}
                   onClick={(e) => handleDeviceClick(e, device.id)}
                 >
                   <div className="info__data">
@@ -243,7 +243,7 @@ const ManagePlants = () => {
               {plants.map((plant, index) => (
                 <li
                   key={index}
-                  className={`info__card ${buttonClicked ? "jigglele" : ""}`}
+                  className={`info__card ${buttonClicked ? "jiggle-card" : ""}`}
                   onClick={() => handlePlantClick(plant.id)}
                 >
                   <div className="info__data">
