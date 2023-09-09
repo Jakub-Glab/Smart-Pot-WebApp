@@ -52,8 +52,8 @@ API.interceptors.response.use(
       return API(config);
     }
     if (error.response && error.response.status === 404) {
-      // const clearAuthEvent = new Event('clearAuth');
-      // window.dispatchEvent(clearAuthEvent);
+      const clearAuthEvent = new Event("clearAuth");
+      window.dispatchEvent(clearAuthEvent);
     }
     return Promise.reject(error);
   }
