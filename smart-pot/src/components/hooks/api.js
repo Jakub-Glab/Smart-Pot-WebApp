@@ -43,7 +43,7 @@ API.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error.response);
+    console.log(error);
     if (error.response && error.response.status === 401) {
       await refreshToken();
       const config = error.config;
