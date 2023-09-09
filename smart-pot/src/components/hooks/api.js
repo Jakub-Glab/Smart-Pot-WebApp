@@ -43,6 +43,7 @@ API.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log(error.response);
     if (error.response && error.response.status === 401) {
       await refreshToken();
       const config = error.config;
@@ -55,7 +56,6 @@ API.interceptors.response.use(
       const clearAuthEvent = new Event("clearAuth");
       window.dispatchEvent(clearAuthEvent);
     }
-    return Promise.reject(error);
   }
 );
 
