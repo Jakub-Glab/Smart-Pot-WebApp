@@ -38,7 +38,7 @@ const usePlantData = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       updatePlants();
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [plants]);

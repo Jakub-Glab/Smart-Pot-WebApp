@@ -1,7 +1,7 @@
 import axios from "axios";
 import urlData from "../../assets/url.json";
 
-let url = localStorage.getItem("customUrl") || urlData.url;
+let url = urlData.url;
 
 const API = axios.create({
   baseURL: url,
@@ -53,6 +53,11 @@ API.interceptors.response.use(
       return API(config);
     }
     if (error.response && error.response.status === 404) {
+      const clearAuthEvent = new Event("clearAuth");
+      window.dispatchEvent(clearAuthEvent);
+    }
+    if (error.message === "Network Error") {
+      console.log("Network Error: Log out");
       const clearAuthEvent = new Event("clearAuth");
       window.dispatchEvent(clearAuthEvent);
     }

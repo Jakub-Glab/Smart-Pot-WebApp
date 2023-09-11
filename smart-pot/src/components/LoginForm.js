@@ -16,17 +16,8 @@ const LoginForm = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [actionType, setActionType] = useState(null);
   const { user, setUserContext } = useAuth();
-  const [customURL, setCustomURL] = useState(
-    localStorage.getItem("customURL") || ""
-  );
 
   const navigate = useNavigate();
-
-  const handleSetCustomURL = (e) => {
-    e.preventDefault();
-    updateAPIBaseURL(customURL);
-    console.log(`Custom url set: ${customURL}`);
-  };
 
   useEffect(() => {
     setEmail("");
@@ -182,17 +173,6 @@ const LoginForm = () => {
           </div>
         )}
       </div>
-      <form onSubmit={handleSetCustomURL}>
-        <input
-          type="text"
-          placeholder="Custom URL"
-          value={customURL}
-          onChange={(e) => {
-            setCustomURL(e.target.value);
-          }}
-        />
-        <input type="submit" value="Set Custom URL" />
-      </form>
     </div>
   );
 };
