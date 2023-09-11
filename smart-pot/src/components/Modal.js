@@ -1,8 +1,21 @@
-// Modal.js
-import React from "react";
+import React, { useEffect } from "react";
 import "../assets/css/Modal.css";
 
 const Modal = ({ show, children, onClose }) => {
+  useEffect(() => {
+    let timer;
+    if (show) {
+      timer = setTimeout(() => {
+        onClose();
+      }, 600); // Close after 1 second
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [show, onClose]);
+
   if (!show) return null;
 
   return (
