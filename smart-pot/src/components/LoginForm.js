@@ -3,7 +3,12 @@ import "../assets/css/Login.css";
 import { useAuth } from "./AuthContext";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
-import { setAuthToken, login, register, resetPassword } from "./hooks/api";
+import {
+  setAuthToken,
+  login,
+  register,
+  requestPasswordReset,
+} from "./hooks/api";
 
 const LoginForm = ({ initialIsReset = false }) => {
   const [email, setEmail] = useState("");
@@ -75,13 +80,6 @@ const LoginForm = ({ initialIsReset = false }) => {
   const handleReset = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setModalMessage("Passwords do not match!");
-      setActionType("failed_reset");
-      setShowModal(true);
-      return;
-    }
-
     try {
       // const response = await resetPassword(email, password);
       // if (response.status === 200) {
@@ -89,6 +87,9 @@ const LoginForm = ({ initialIsReset = false }) => {
       //   setActionType("reset");
       //   setShowModal(true);
       // }
+      const response = await requestPasswordReset(email);
+      setAuthToken(response);
+      console.log("Response: ", response);
       setModalMessage("Not implemented yet!");
       setActionType("reset");
       setShowModal(true);

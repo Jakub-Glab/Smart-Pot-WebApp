@@ -1,21 +1,50 @@
 import React, { useState } from "react";
 import "../assets/css/Login.css";
 import Modal from "./Modal";
+import { changePassword } from "./hooks/api";
 
 const ConfirmResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [actionType, setActionType] = useState(null);
+  const [isReset, setIsReset] = useState(false);
 
   const handleReset = async (e) => {
     e.preventDefault();
-    setModalMessage("Not implemented yet!");
-    setShowModal(true);
+
+    if (password !== confirmPassword) {
+      setModalMessage("Passwords do not match!");
+      setActionType("failed_reset");
+      setShowModal(true);
+      return;
+    }
+
+    try {
+      console.log("Password: ", password);
+      const response = await changePassword(password);
+      if (response.status === 200) {
+        setModalMessage("Password change Successful!");
+        setActionType("change_password");
+        setShowModal(true);
+      }
+    } catch (err) {
+      setModalMessage("Failed to change Password!");
+      setActionType("failed_change_password");
+      setShowModal(true);
+      console.error(err);
+    }
   };
 
   const closeModal = () => {
     setShowModal(false);
+    if (actionType === "failed_change_password") {
+      setActionType(null);
+    } else if (actionType === "change_password") {
+      setIsReset(false);
+      setActionType(null);
+    }
   };
 
   return (
