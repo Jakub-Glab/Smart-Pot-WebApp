@@ -1,6 +1,5 @@
 import axios from "axios";
 import urlData from "../../assets/url.json";
-import { not } from "ip";
 
 let url = urlData.url;
 
@@ -159,7 +158,7 @@ export const resetPassword = async (email, password) => {
   console.log("Not implemented yet");
 };
 
-export const changePassword = async (password) => {
+export const changePassword = async (password, token) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
   const body = {
     token: sessionStorage.getItem("accessToken"),
