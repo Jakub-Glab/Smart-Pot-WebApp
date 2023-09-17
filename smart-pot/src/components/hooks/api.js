@@ -1,5 +1,6 @@
 import axios from "axios";
 import urlData from "../../assets/url.json";
+import { not } from "ip";
 
 let url = urlData.url;
 
@@ -128,5 +129,43 @@ export const deletePlant = async (plantId) => {
 export const deleteDevice = async (deviceId) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
   const response = await API.delete(`/api/v1/devices/${deviceId}`);
+  return response;
+};
+
+export const getPlantHistoryByLimit = async (plantId, limit) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.get(`/api/v1/hist-plants/get-by-limit/12?limit=5`);
+  return response;
+};
+
+export const getPlantHistoryByDate = async (
+  plantId,
+  startDate,
+  endDate = null
+) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+
+  let endpoint = `/api/v1/hist-plants/get-by-date/${plantId}?start_date=${startDate}`;
+
+  if (endDate) {
+    endpoint += `&end_date=${endDate}`;
+  }
+
+  const response = await API.get(endpoint);
+  return response;
+};
+
+export const resetPassword = async (email, password) => {
+  console.log("Not implemented yet");
+};
+
+export const changePassword = async (password) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const body = {
+    token: sessionStorage.getItem("accessToken"),
+    new_password: password,
+  };
+  console.log(body);
+  const response = await API.post("/api/v1/reset-password", body);
   return response;
 };

@@ -7,6 +7,10 @@ import { logout, removeAuthToken } from "./components/hooks/api";
 const BurgerMenu = ({ setShowModal }) => {
   const { clearAuthContext } = useAuth(); // Get setUser from AuthContext
 
+  const showSettings = (event) => {
+    event.preventDefault();
+  };
+
   const logoutuser = async () => {
     try {
       const response = await logout();
@@ -27,6 +31,13 @@ const BurgerMenu = ({ setShowModal }) => {
       </a>
       <a className="menu-item" href="/manage-plants">
         Manage plants
+      </a>
+
+      <a className="menu-item" href="/statistics">
+        Statistics
+      </a>
+      <a className="menu-item" href="/settings">
+        Settings
       </a>
       <a className="menu-item" onClick={logoutuser}>
         Log Out

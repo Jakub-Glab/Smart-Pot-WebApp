@@ -3,9 +3,9 @@ import "../assets/css/Login.css";
 import { useAuth } from "./AuthContext";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
-import { setAuthToken, login, register, updateAPIBaseURL } from "./hooks/api";
+import { setAuthToken, login, register, resetPassword } from "./hooks/api";
 
-const LoginForm = () => {
+const LoginForm = ({ initialIsReset = false }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,6 +16,7 @@ const LoginForm = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [actionType, setActionType] = useState(null);
   const { user, setUserContext } = useAuth();
+  const [isReset, setIsReset] = useState(initialIsReset);
 
   const navigate = useNavigate();
 
@@ -71,20 +72,46 @@ const LoginForm = () => {
     }
   };
 
+  const handleReset = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setModalMessage("Passwords do not match!");
+      setActionType("failed_reset");
+      setShowModal(true);
+      return;
+    }
+
+    try {
+      // const response = await resetPassword(email, password);
+      // if (response.status === 200) {
+      //   setModalMessage("Password Reset Successful!");
+      //   setActionType("reset");
+      //   setShowModal(true);
+      // }
+      setModalMessage("Not implemented yet!");
+      setActionType("reset");
+      setShowModal(true);
+    } catch (err) {
+      setModalMessage("Failed to Reset Password!");
+      setActionType("failed_reset");
+      setShowModal(true);
+      console.error(err);
+    }
+  };
+
   const closeModal = () => {
     setShowModal(false);
     if (actionType === "login") {
       setUserContext();
-      console.log(user);
       navigate("/");
-    } else if (actionType === "failed_login") {
-      setIsLogin(true);
+    } else if (
+      ["failed_login", "failed_reset", "failed_register"].includes(actionType)
+    ) {
       setActionType(null);
-    } else if (actionType === "register") {
+    } else if (actionType === "register" || actionType === "reset") {
       setIsLogin(true);
-      setActionType(null);
-    } else if (actionType === "failed_register") {
-      setIsLogin(false);
+      setIsReset(false);
       setActionType(null);
     }
   };
@@ -105,9 +132,21 @@ const LoginForm = () => {
           type="checkbox"
           id="check"
           checked={!isLogin}
-          onChange={() => setIsLogin(!isLogin)}
+          onChange={(e) => {
+            setIsLogin(!e.target.checked);
+            setIsReset(false);
+          }}
         />
-        {isLogin ? (
+        <input
+          type="checkbox"
+          id="check-reset"
+          checked={isReset}
+          onChange={(e) => {
+            setIsReset(e.target.checked);
+            setIsLogin(true); // If you want to go to login when going to reset, you can control it here
+          }}
+        />
+        {isLogin && !isReset ? (
           <div className="form">
             {/* Login form */}
             <header>Login</header>
@@ -128,8 +167,47 @@ const LoginForm = () => {
             </form>
             <div className="signup">
               <span className="signup">
-                Don't have an account?
+                Forget password?
+                <label htmlFor="check-reset"> Reset password</label>
+              </span>
+            </div>
+            <div className="signup">
+              <span className="signup">
+                Dont have an account?
                 <label htmlFor="check"> Signup</label>
+              </span>
+            </div>
+          </div>
+        ) : isReset ? (
+          <div className="form">
+            {/* Reset form */}
+            <header>Password Reset</header>
+            <form onSubmit={handleReset}>
+              <input
+                type="text"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="submit"
+                className="button"
+                value="Request reset Password"
+              />
+            </form>
+            <div className="signup">
+              <span className="signup">
+                Back to login?
+                <span
+                  className="link"
+                  onClick={() => {
+                    setIsLogin(true);
+                    setIsReset(false);
+                  }}
+                >
+                  {" "}
+                  Login
+                </span>
               </span>
             </div>
           </div>

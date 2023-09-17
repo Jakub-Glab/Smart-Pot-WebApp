@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Sortable from "sortablejs";
 import DropCard from "./DropCard";
 
-const DropContainer = ({ onCardClick, plants, setPlants, isLoading }) => {
+const DropContainer = ({
+  onCardClick,
+  plants,
+  setSelectedPlant,
+  isLoading,
+}) => {
   const dropItems = useRef(null);
   const [rotationDegrees, setRotationDegrees] = useState(0);
 
@@ -13,15 +18,21 @@ const DropContainer = ({ onCardClick, plants, setPlants, isLoading }) => {
       dragClass: "sortable-drag",
       filter: ".refresh-sign",
       preventOnFilter: true,
-    });
-  }, []);
+      onEnd: () => {
+        const newSortedPlants = Array.from(dropItems.current.children)
+          .filter((child) => !child.classList.contains("refresh-sign"))
+          .map((child) =>
+            plants.find((plant) => plant.id === Number(child.id))
+          );
+        localStorage.setItem(
+          "sortedPlants",
+          JSON.stringify(newSortedPlants.map((p) => p.id))
+        );
 
-  const getNewPlants = () => {
-    // Refresh logic should go here. Depending on how you want to refresh, you could:
-    // 1. Make an API call to get new plants and setPlants(newPlants)
-    // 2. Or simply refresh the entire page as in your original code:
-    // window.location.reload();
-  };
+        setSelectedPlant(newSortedPlants[0]);
+      },
+    });
+  }, [plants]);
 
   return (
     <div id="drop-items" className="drop__container" ref={dropItems}>
@@ -42,7 +53,6 @@ const DropContainer = ({ onCardClick, plants, setPlants, isLoading }) => {
         className="refresh-sign"
         style={{ position: "absolute", top: "10%", right: "10%" }}
         onClick={() => {
-          getNewPlants();
           setRotationDegrees(rotationDegrees - 360);
         }}
       >

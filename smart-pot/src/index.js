@@ -9,6 +9,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Modal from "./components/Modal"; // Import Modal
 import ManagePlants from "./components/ManagePlants";
+import Statistics from "./components/Statistics";
+import Settings from "./components/Settings";
+import ConfirmResetPassword from "./components/ConfirmResetPassword";
 import { useNavigate } from "react-router-dom";
 
 const AppRoutes = ({ setShowMenu }) => {
@@ -27,10 +30,16 @@ const AppRoutes = ({ setShowMenu }) => {
     <>
       <Routes>
         <Route path="/login" element={user ? <App /> : <LoginForm />} />
+        <Route path="/reset-password" element={<ConfirmResetPassword />} />
         <Route
           path="/manage-plants"
           element={user ? <ManagePlants /> : <LoginForm />}
         />
+        <Route
+          path="/statistics"
+          element={user ? <Statistics /> : <LoginForm />}
+        />
+        <Route path="/settings" element={user ? <Settings /> : <LoginForm />} />
         <Route path="/" element={user ? <App /> : <LoginForm />} />
       </Routes>
     </>
@@ -61,9 +70,7 @@ const MainComponent = () => {
 
   return (
     <React.StrictMode>
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        Successfully Logged Out!
-      </Modal>
+      <Modal show={showModal} onClose={() => setShowModal(false)}></Modal>
       <div className="App" id="outer-container">
         {showMenu && ( // Only display if showMenu is true
           <BurgerMenu
