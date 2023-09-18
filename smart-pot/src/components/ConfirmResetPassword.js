@@ -33,10 +33,6 @@ const ConfirmResetPassword = () => {
         setShowModal(true);
         localStorage.removeItem("accessToken");
       }
-      setModalMessage("Password change Successful!");
-      setActionType("change_password");
-      setShowModal(true);
-      localStorage.removeItem("accessToken");
     } catch (err) {
       setModalMessage("Failed to change Password!");
       setActionType("failed_change_password");
