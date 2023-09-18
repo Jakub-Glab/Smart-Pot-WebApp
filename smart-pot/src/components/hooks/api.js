@@ -159,17 +159,20 @@ export const resetPassword = async (email, password) => {
 };
 
 export const changePassword = async (password) => {
-  setAuthToken(sessionStorage.getItem("accessToken"));
+  setAuthToken(localStorage.getItem("accessToken"));
   const body = {
-    token: sessionStorage.getItem("accessToken"),
+    token: localStorage.getItem("accessToken"),
     new_password: password,
   };
   console.log(body);
-  // const response = await API.post("/api/v1/reset-password", body);
-  // return response;
+  const response = await API.post("/api/v1/reset-password", body);
+  return response;
 };
 
 export const requestPasswordReset = async (email) => {
-  console.log("Not implemented yet");
-  return "TestToken123";
+  const body = {
+    user_email: email,
+  };
+  const response = await API.post("/api/v1/recover-password", body);
+  return response;
 };

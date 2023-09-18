@@ -81,18 +81,13 @@ const LoginForm = ({ initialIsReset = false }) => {
     e.preventDefault();
 
     try {
-      // const response = await resetPassword(email, password);
-      // if (response.status === 200) {
-      //   setModalMessage("Password Reset Successful!");
-      //   setActionType("reset");
-      //   setShowModal(true);
-      // }
       const response = await requestPasswordReset(email);
-      setAuthToken(response);
-      console.log("Response: ", response);
-      setModalMessage("Not implemented yet!");
-      setActionType("reset");
-      setShowModal(true);
+      if (response.status === 200) {
+        setModalMessage("Password Reset Successful!");
+        setActionType("reset");
+        localStorage.setItem("accessToken", response);
+        setShowModal(true);
+      }
     } catch (err) {
       setModalMessage("Failed to Reset Password!");
       setActionType("failed_reset");

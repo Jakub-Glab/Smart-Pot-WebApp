@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../assets/css/Login.css";
 import Modal from "./Modal";
 import { changePassword } from "./hooks/api";
+import { useNavigate } from "react-router-dom"; // Import useHistory
 
 const ConfirmResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -10,6 +11,8 @@ const ConfirmResetPassword = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [actionType, setActionType] = useState(null);
   const [isReset, setIsReset] = useState(false);
+
+  const navigate = useNavigate(); // Use the hook
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -28,7 +31,12 @@ const ConfirmResetPassword = () => {
         setModalMessage("Password change Successful!");
         setActionType("change_password");
         setShowModal(true);
+        localStorage.removeItem("accessToken");
       }
+      setModalMessage("Password change Successful!");
+      setActionType("change_password");
+      setShowModal(true);
+      localStorage.removeItem("accessToken");
     } catch (err) {
       setModalMessage("Failed to change Password!");
       setActionType("failed_change_password");
@@ -44,6 +52,9 @@ const ConfirmResetPassword = () => {
     } else if (actionType === "change_password") {
       setIsReset(false);
       setActionType(null);
+      setTimeout(() => {
+        navigate("/login");
+      }, 600);
     }
   };
 
