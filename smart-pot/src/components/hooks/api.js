@@ -159,7 +159,7 @@ export const resetPassword = async (email, password) => {
 };
 
 export const changePassword = async (password) => {
-  setAuthToken(localStorage.getItem("accessToken"));
+  console.log(localStorage.getItem("accessToken"));
   const body = {
     token: localStorage.getItem("accessToken"),
     new_password: password,

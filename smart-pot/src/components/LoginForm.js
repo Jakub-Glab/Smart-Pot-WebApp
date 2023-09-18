@@ -36,6 +36,7 @@ const LoginForm = ({ initialIsReset = false }) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
+      console.log("Login Response: ", response);
       if (response.status === 200) {
         sessionStorage.setItem("accessToken", response.data.refresh_token);
         sessionStorage.setItem("refreshToken", response.data.refresh_token);
@@ -85,7 +86,11 @@ const LoginForm = ({ initialIsReset = false }) => {
       if (response.status === 200) {
         setModalMessage("Password Reset Successful!");
         setActionType("reset");
-        localStorage.setItem("accessToken", response);
+        localStorage.setItem("accessToken", response.data.reset_password_token);
+        console.log(
+          "Reset Password Token: ",
+          response.data.reset_password_token
+        );
         setShowModal(true);
       }
     } catch (err) {
