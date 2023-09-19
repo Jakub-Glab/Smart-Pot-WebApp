@@ -23,8 +23,24 @@ const isSensorValueNotOk = (sensor, value) => {
   return false;
 };
 
+const getTooltipMessage = (sensor, value) => {
+  let message = "";
+  if (sensor === "temp") {
+    if (value < 15) message = "Temperature is too low for your plant";
+    if (value > 45) message = "Temperature is too high for your plant";
+  } else if (sensor === "hum") {
+    if (value < 25) message = "You need to water your plant";
+    if (value > 70) message = "Too much moisture, consider draining the soil";
+  } else if (sensor === "lux") {
+    if (value < 200) message = "Your plant needs more sunlight";
+    if (value > 10000) message = "Your plant is getting too much sunlight";
+  }
+  return message;
+};
+
 const SensorCard = ({ sensor, value, unit }) => {
   const [isNotOk, setIsNotOk] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     setIsNotOk(isSensorValueNotOk(sensor, value));
@@ -37,8 +53,31 @@ const SensorCard = ({ sensor, value, unit }) => {
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
+        position: "relative", // To position tooltip
       }}
+      onMouseEnter={() => {
+        if (isNotOk) {
+          setShowTooltip(true);
+        }
+      }}
+      onMouseLeave={() => setShowTooltip(false)}
     >
+      {showTooltip && (
+        <div
+          className="tooltip"
+          style={{
+            position: "absolute",
+            padding: "5px",
+            bottom: "100%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            borderRadius: "3px",
+            zIndex: 1,
+          }}
+        >
+          {getTooltipMessage(sensor, value)}
+        </div>
+      )}
       <img
         className={`${sensor}Img`}
         src={getSensorImage(sensor, value)}

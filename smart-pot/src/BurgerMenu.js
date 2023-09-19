@@ -4,8 +4,8 @@ import "./assets/css/BurgerMenu.css";
 import { useAuth } from "./components/AuthContext";
 import { logout, removeAuthToken } from "./components/hooks/api";
 
-const BurgerMenu = ({ setShowModal }) => {
-  const { clearAuthContext } = useAuth(); // Get setUser from AuthContext
+const BurgerMenu = ({ setShowModal, setModalMessage }) => {
+  const { logoutUser } = useAuth(); // Get setUser from AuthContext
 
   const showSettings = (event) => {
     event.preventDefault();
@@ -16,7 +16,8 @@ const BurgerMenu = ({ setShowModal }) => {
       const response = await logout();
       if (response.status === 200) {
         await removeAuthToken(); // Remove the token from sessionStorage
-        clearAuthContext();
+        logoutUser();
+        setModalMessage("Successfully Logged Out!");
         setShowModal(true); // Show the modal popup
       }
     } catch (error) {

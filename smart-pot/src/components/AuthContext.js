@@ -16,6 +16,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const logoutUser = () => {
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
+    setUser(null);
+  };
+
   const setUserContext = () => {
     const accesToken = sessionStorage.getItem("accessToken");
     const refreshToken = sessionStorage.getItem("refreshToken");
@@ -34,6 +40,7 @@ export const AuthProvider = ({ children }) => {
     setUser,
     clearAuthContext,
     setUserContext,
+    logoutUser,
   };
 
   return (

@@ -25,7 +25,6 @@ const ConfirmResetPassword = () => {
     }
 
     try {
-      console.log("Password: ", password);
       const response = await changePassword(password);
       if (response.status === 200) {
         setModalMessage("Password change Successful!");

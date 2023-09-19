@@ -17,7 +17,7 @@ const LoginForm = ({ initialIsReset = false }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [fullName, setFullName] = useState("");
   const [navigateToApp, setNavigateToApp] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [actionType, setActionType] = useState(null);
   const { user, setUserContext } = useAuth();
@@ -36,19 +36,18 @@ const LoginForm = ({ initialIsReset = false }) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      console.log("Login Response: ", response);
       if (response.status === 200) {
         sessionStorage.setItem("accessToken", response.data.refresh_token);
         sessionStorage.setItem("refreshToken", response.data.refresh_token);
         setAuthToken(response.data.access_token);
         setModalMessage("Successfully Logged In!");
         setActionType("login");
-        setShowModal(true);
+        setShowLoginModal(true);
       }
     } catch (err) {
       setModalMessage("Failed to Logg In!");
       setActionType("failed_login");
-      setShowModal(true);
+      setShowLoginModal(true);
       console.error(err);
     }
   };
@@ -59,20 +58,20 @@ const LoginForm = ({ initialIsReset = false }) => {
     if (!fullName || !email || !password || !confirmPassword) {
       setActionType("failed_register");
       setModalMessage("Please fill in all the fields!");
-      setShowModal(true);
+      setShowLoginModal(true);
       return;
     }
     if (password !== confirmPassword) {
       setActionType("failed_register");
       setModalMessage("Passwords do not match!");
-      setShowModal(true);
+      setShowLoginModal(true);
       return;
     }
     try {
       const response_register = await register(fullName, email, password); // Modify this line as per your register API method
       setModalMessage(response_register.data.message);
 
-      setShowModal(true);
+      setShowLoginModal(true);
     } catch (err) {
       console.error(err);
     }
@@ -87,22 +86,18 @@ const LoginForm = ({ initialIsReset = false }) => {
         setModalMessage("Password Reset Successful!");
         setActionType("reset");
         localStorage.setItem("accessToken", response.data.reset_password_token);
-        console.log(
-          "Reset Password Token: ",
-          response.data.reset_password_token
-        );
-        setShowModal(true);
+        setShowLoginModal(true);
       }
     } catch (err) {
       setModalMessage("Failed to Reset Password!");
       setActionType("failed_reset");
-      setShowModal(true);
+      setShowLoginModal(true);
       console.error(err);
     }
   };
 
   const closeModal = () => {
-    setShowModal(false);
+    setShowLoginModal(false);
     if (actionType === "login") {
       setUserContext();
       navigate("/");
@@ -126,7 +121,7 @@ const LoginForm = ({ initialIsReset = false }) => {
   return (
     <div>
       <div className="container">
-        <Modal show={showModal} onClose={closeModal}>
+        <Modal show={showLoginModal} onClose={closeModal}>
           {modalMessage} {/* Display the modal message */}
         </Modal>
         <input

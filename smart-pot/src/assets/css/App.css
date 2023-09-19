@@ -72,7 +72,6 @@ img {
   height: 30rem;
   background-color: rgb(119, 187, 122);
   box-shadow: 4px 4px 16px #e1e1e1;
-  z-index: -1;
   overflow: hidden;
 }
 
@@ -89,6 +88,11 @@ img {
   box-shadow: 4px 4px 16px #e1e1e1;
   width: 26.5rem;
   min-height: 15rem;
+  pointer-events: none;
+}
+
+.drop__container > * {
+  pointer-events: auto;
 }
 
 .drop__container.with-shade::before {
@@ -99,7 +103,6 @@ img {
   right: 0;
   height: 20%;
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
-  pointer-events: none;
 }
 
 .drop__container.with-shade.show-plus::before {
@@ -110,7 +113,6 @@ img {
   right: 0;
   height: 20%;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
-  pointer-events: none;
 }
 
 .drop__card,
@@ -311,4 +313,13 @@ img {
   100% {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   }
+}
+
+.tooltip {
+  padding: 5px 10px;
+  background: #f8f8fc;
+  color: rgb(49, 49, 49);
+  border-radius: 5px;
+  box-shadow: 4px 4px 16px #e1e1e1;
+  font-size: 14px;
 }

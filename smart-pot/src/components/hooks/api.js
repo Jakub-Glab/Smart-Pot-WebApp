@@ -52,7 +52,11 @@ API.interceptors.response.use(
       )}`;
       return API(config);
     }
-    if (error.response && error.response.status === 404) {
+    if (
+      error.response &&
+      error.response.status === 404 &&
+      error.response.data.detail === "Incorrect username or password"
+    ) {
       const clearAuthEvent = new Event("clearAuth");
       window.dispatchEvent(clearAuthEvent);
     }

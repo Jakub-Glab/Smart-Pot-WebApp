@@ -50,14 +50,16 @@ const MainComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false); // State to control whether to show menu or not
   const { clearAuthContext } = useAuth();
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     const handleClearAuth = () => {
       if (clearAuthContext) {
-        // Check if function is available
         clearAuthContext();
-        setShowModal(true);
-        console.log("Application error! You were logged out!");
+        if (window.location.pathname !== "/login") {
+          setModalMessage("Application error! You were logged out!");
+          setShowModal(true);
+        }
       }
     };
 
@@ -70,13 +72,16 @@ const MainComponent = () => {
 
   return (
     <React.StrictMode>
-      <Modal show={showModal} onClose={() => setShowModal(false)}></Modal>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        {modalMessage}
+      </Modal>
       <div className="App" id="outer-container">
-        {showMenu && ( // Only display if showMenu is true
+        {showMenu && (
           <BurgerMenu
             pageWrapId={"page-wrap"}
             outerContainerId={"outer-container"}
             setShowModal={setShowModal}
+            setModalMessage={setModalMessage}
           />
         )}
         <Router>
