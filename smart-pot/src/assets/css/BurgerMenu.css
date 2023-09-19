@@ -1,4 +1,5 @@
 /* Position and sizing of burger button */
+/* Existing styles */
 .bm-burger-button {
   position: fixed;
   width: 36px;
@@ -7,20 +8,27 @@
   top: 36px;
 }
 
-/* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: rgb(119, 187, 122);
 }
 
-/* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
   background: rgb(119, 187, 122);
 }
 
-/* Position and sizing of clickable cross button */
 .bm-cross-button {
   height: 64px;
   width: 64px;
+}
+
+/* Media query for small screens, typically less than 768px */
+@media only screen and (max-width: 767px) {
+  .bm-burger-button {
+    width: 26px;
+    height: 20px;
+    left: 5px;
+    top: 16px;
+  }
 }
 
 /* Color/shape of close button cross */
