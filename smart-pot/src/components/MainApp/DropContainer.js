@@ -49,26 +49,6 @@ const DropContainer = ({
           />
         ))
       )}
-      <div
-        className="refresh-sign"
-        style={{ position: "absolute", top: "10%", right: "10%" }}
-        onClick={() => {
-          setRotationDegrees(rotationDegrees - 360);
-        }}
-      >
-        <img
-          className="refresh-sign"
-          src="assets/img/refresh.png"
-          style={{
-            width: "32px",
-            height: "32px",
-            backgroundColor: "transparent",
-            transform: `rotate(${rotationDegrees}deg)`,
-            transition: "transform 0.4s ease-in-out",
-          }}
-          alt=""
-        />
-      </div>
     </div>
   );
 };

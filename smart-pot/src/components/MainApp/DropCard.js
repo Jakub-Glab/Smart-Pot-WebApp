@@ -1,6 +1,6 @@
 import React from "react";
 
-const DropCard = React.memo(({ id, imgSrc, name, profession, onClick }) => {
+const DropCard = React.memo(({ id, imgSrc, name, onClick }) => {
   return (
     <div className="drop__card" id={id} onClick={() => onClick(imgSrc)}>
       <div className="drop__data">
@@ -8,7 +8,10 @@ const DropCard = React.memo(({ id, imgSrc, name, profession, onClick }) => {
         <div>
           <h1 className="drop__name">{name}</h1>
         </div>
-        <div className="Sensors" style={{ float: "right" }}>
+        <div
+          className="Sensors"
+          style={{ float: "right", paddingLeft: "5rem" }}
+        >
           <img
             className="temp"
             src="assets/img/temp.png"
