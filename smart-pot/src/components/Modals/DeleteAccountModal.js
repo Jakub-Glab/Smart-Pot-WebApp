@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../Modals/Modal";
+import { deleteAccount } from "../hooks/api";
 
 const DeleteAccountModal = ({ show, onClose }) => {
   const [password, setPassword] = useState("");
@@ -20,9 +21,12 @@ const DeleteAccountModal = ({ show, onClose }) => {
     }
 
     try {
-      setModalMessage("Not implemented yet!");
-      setActionType("delete_account");
-      setShowModal(true);
+      const response = await deleteAccount(password);
+      if (response.status === 200) {
+        setModalMessage("Password change Successful!");
+        setActionType("change_password");
+        setShowModal(true);
+      }
     } catch (err) {
       setModalMessage("Failed to delete account!");
       setActionType("failed_delete_account");

@@ -1,0 +1,11 @@
+.input-wrapper {
+  position: relative;
+}
+
+.input-unit {
+  position: absolute;
+  right: 33px;
+  top: 39%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Makes the span unclickable so the input field can be focused */
+}

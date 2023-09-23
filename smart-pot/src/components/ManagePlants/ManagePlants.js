@@ -6,11 +6,14 @@ import {
   createNewDevice,
   deletePlant,
   deleteDevice,
-} from "./hooks/api";
-import PlantFormModal from "./PlantFormModal"; // Make sure the path is correct
-import DeviceFormModal from "./DeviceFormModal";
-import Modal from "./Modal";
-import "../assets/css/ManagePlants.css";
+} from "../hooks/api";
+import PlantFormModal from "../Modals/PlantFormModal"; // Make sure the path is correct
+import DeviceFormModal from "../Modals/DeviceFormModal";
+import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
+import DeviceCard from "./DeviceCard";
+import PlantCard from "./PlantCard";
+import Tooltip from "./Tooltip";
+import "../../assets/css/ManagePlants.css";
 
 const ManagePlants = () => {
   const [devices, setDevices] = useState([]);
@@ -28,9 +31,8 @@ const ManagePlants = () => {
   const [tooltipMessage, setTooltipMessage] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
-  const deviceImg = "../assets/img/device.png";
-
   const handlePlantClick = (plantId) => {
+    console.log("Plant ID: ", plantId);
     if (buttonClicked) {
       setModalMessage("Are you sure you want to delete this plant?");
       setPlantToDelete(plantId);
@@ -50,6 +52,7 @@ const ManagePlants = () => {
   };
 
   const handleDeviceClick = async (e, deviceId) => {
+    console.log("Device ID: ", deviceId);
     if (buttonClicked) {
       setModalMessage("Are you sure you want to delete this device?");
       setDeviceToDelete(deviceId);
@@ -72,6 +75,7 @@ const ManagePlants = () => {
   };
 
   const handleDeleteEntity = async () => {
+    console.log("Deleting entity: ", deletingEntityType);
     if (deletingEntityType === "plant") {
       let response = await deletePlant(plantToDelete);
       if (response.status === 200) {
@@ -107,6 +111,7 @@ const ManagePlants = () => {
 
   const handleCreatePlant = async (plantData) => {
     // Create the payload
+    console.log("Plant data: ", plantData);
     let payload = {
       name: plantData.name,
       device_id: plantData.id,
@@ -176,6 +181,7 @@ const ManagePlants = () => {
             </div>
           </header>
           <div className="info__container">
+            {/* Devices Listing */}
             <h2>
               Devices
               <div
@@ -199,23 +205,17 @@ const ManagePlants = () => {
                 />
               </div>
             </h2>
-            <ul>
-              {devices.map((device, index) => (
-                <li
-                  key={index}
-                  className={`info__card ${buttonClicked ? "jiggle-card" : ""}`}
-                  onClick={(e) => handleDeviceClick(e, device.id)}
-                >
-                  <div className="info__data">
-                    <img src={deviceImg} alt="device" className="info__img" />
-                    <div>
-                      <p className="info__name">{device.name}</p>
-                      <p className="info__id">{device.id}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {devices.map((device) => (
+              <DeviceCard
+                key={device.id}
+                device={device}
+                inDeleteMode={buttonClicked}
+                onDelete={handleDeviceClick}
+                onCopy={copyToClipboard}
+              />
+            ))}
+
+            {/* Plants Listing */}
             <h2>
               Plants
               <div
@@ -239,49 +239,28 @@ const ManagePlants = () => {
                 />
               </div>
             </h2>
-            <ul>
-              {plants.map((plant, index) => (
-                <li
-                  key={index}
-                  className={`info__card ${buttonClicked ? "jiggle-card" : ""}`}
-                  onClick={() => handlePlantClick(plant.id)}
-                >
-                  <div className="info__data">
-                    <img src={plant.imgsrc} alt="plant" className="info__img" />
-                    <div>
-                      <p className="info__name">{plant.name}</p>
-                      <p className="info__id">{plant.id}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <input
-              type="button"
-              className={`buttonDel ${buttonClicked ? "active" : ""}`}
-              value="Delete"
-              onClick={() => {
-                setButtonClicked(!buttonClicked);
-              }}
-            />
+            {plants.map((plant) => (
+              <PlantCard
+                key={plant.id}
+                plant={plant}
+                inDeleteMode={buttonClicked}
+                onDelete={handlePlantClick}
+              />
+            ))}
           </div>
-
-          {showTooltip && (
-            <div
-              className="tooltip"
-              style={{
-                position: "absolute",
-                top: `${tooltipPosition.y}px`,
-                left: `${tooltipPosition.x + 15}px`,
-                zIndex: 1000,
-              }}
-            >
-              {tooltipMessage}
-            </div>
-          )}
+          <br></br>
+          <input
+            type="button"
+            className={`buttonDel ${buttonClicked ? "active" : ""}`}
+            value="Delete"
+            onClick={() => {
+              setButtonClicked(!buttonClicked);
+            }}
+          />
         </div>
       )}
 
+      {/* Modals */}
       <PlantFormModal
         show={showPlantFormModal}
         onClose={() => setShowPlantFormModal(false)}
@@ -293,11 +272,16 @@ const ManagePlants = () => {
         onClose={() => setShowDeviceFormModal(false)}
         onSubmit={handleCreateDevice}
       />
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        {modalMessage}
-        <button onClick={() => setShowModal(false)}>No</button>
-        <button onClick={handleDeleteEntity}>Yes</button>
-      </Modal>
+      <DeleteConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleDeleteEntity}
+        entityType={deletingEntityType}
+      />
+      {/* Tooltip */}
+      {showTooltip && (
+        <Tooltip message={tooltipMessage} position={tooltipPosition} />
+      )}
     </div>
   );
 };

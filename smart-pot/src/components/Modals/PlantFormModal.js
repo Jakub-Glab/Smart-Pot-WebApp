@@ -1,14 +1,15 @@
 // PlantFormModal.js
 import React, { useState } from "react";
+import DeviceSelectComponent from "./DeviceSelectComponent";
 
-const PlantFormModal = ({ show, onClose, onSubmit }) => {
+const PlantFormModal = ({ show, onClose, onSubmit, devices }) => {
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [hum, setHum] = useState("");
   const [temp, setTemp] = useState("");
   const [lux, setLux] = useState("");
   const [imgSrc, setImgSrc] = useState("assets/img/plant1.png");
-
+  const [selectedOption, setSelectedOption] = useState("none");
   const plantImages = [
     "assets/img/plant1.png",
     "assets/img/plant2.png",
@@ -33,6 +34,11 @@ const PlantFormModal = ({ show, onClose, onSubmit }) => {
     return null;
   }
 
+  const onChange = (e) => {
+    console.log("Selected timezone", e);
+    setId(e.id);
+  };
+
   return (
     <div className={`form${show ? " block-interaction" : ""}`}>
       <header>Add new plant</header>
@@ -45,13 +51,13 @@ const PlantFormModal = ({ show, onClose, onSubmit }) => {
           required
         />
         <br />
-        <input
-          type="text"
-          placeholder="Device ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          required
-        />
+        <div
+          style={{
+            marginBottom: "1.3rem",
+          }}
+        >
+          <DeviceSelectComponent options={devices} onChange={onChange} />
+        </div>
         <div>
           <p>Choose Plant Image:</p>
           <div className="image-gallery">

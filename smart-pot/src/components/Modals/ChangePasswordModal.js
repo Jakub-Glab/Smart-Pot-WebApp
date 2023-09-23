@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import "../assets/css/Login.css";
 import Modal from "./Modal";
-import { changePassword } from "./hooks/api";
-import { useNavigate } from "react-router-dom"; // Import useHistory
+import { changePassword } from "../hooks/api";
 
-const ConfirmResetPassword = () => {
+const ChangePasswordModal = ({ show, onClose }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -12,9 +10,7 @@ const ConfirmResetPassword = () => {
   const [actionType, setActionType] = useState(null);
   const [isReset, setIsReset] = useState(false);
 
-  const navigate = useNavigate(); // Use the hook
-
-  const handleReset = async (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -25,12 +21,12 @@ const ConfirmResetPassword = () => {
     }
 
     try {
+      console.log("Password: ", password);
       const response = await changePassword(password);
       if (response.status === 200) {
         setModalMessage("Password change Successful!");
         setActionType("change_password");
         setShowModal(true);
-        localStorage.removeItem("accessToken");
       }
     } catch (err) {
       setModalMessage("Failed to change Password!");
@@ -47,40 +43,37 @@ const ConfirmResetPassword = () => {
     } else if (actionType === "change_password") {
       setIsReset(false);
       setActionType(null);
-      setTimeout(() => {
-        navigate("/login");
-      }, 600);
     }
+    onClose();
   };
 
+  if (!show) return null;
+
   return (
-    <div>
-      <div className="container">
-        <Modal show={showModal} onClose={closeModal}>
-          {modalMessage} {/* Display the modal message */}
-        </Modal>
-        <div className="form">
-          {/* Reset form */}
-          <header>Password Reset</header>
-          <form onSubmit={handleReset}>
-            <input
-              type="password"
-              placeholder="Enter new password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <input type="submit" className="button" value="Reset Password" />
-          </form>
-        </div>
-      </div>
+    <div className={`form${show ? " block-interaction" : ""}`}>
+      <Modal show={showModal} onClose={closeModal}>
+        {modalMessage} {/* Display the modal message */}
+      </Modal>
+      {/* Reset form */}
+      <header>Change Password</header>
+      <form onSubmit={handlePasswordChange}>
+        <input
+          type="password"
+          placeholder="Enter new password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Confirm your password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <input type="submit" className="button" value="Reset Password" />
+      </form>
+      <input type="button" className="button" onClick={onClose} value="Close" />
     </div>
   );
 };
 
-export default ConfirmResetPassword;
+export default ChangePasswordModal;

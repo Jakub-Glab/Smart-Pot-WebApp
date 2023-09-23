@@ -122,6 +122,15 @@ export const createNewDevice = async (payload) => {
   const response = await API.post("/api/v1/devices/create-new-device", payload);
   return response;
 };
+export const deleteAccount = async (password) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const body = {
+    user_token: sessionStorage.getItem("accessToken"),
+    password: password,
+  };
+  const response = await API.delete(`/api/v1/users/active-user-delete`, body);
+  return response;
+};
 
 export const deletePlant = async (plantId) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
@@ -163,12 +172,10 @@ export const resetPassword = async (email, password) => {
 };
 
 export const changePassword = async (password) => {
-  console.log(localStorage.getItem("accessToken"));
   const body = {
     token: localStorage.getItem("accessToken"),
     new_password: password,
   };
-  console.log(body);
   const response = await API.post("/api/v1/reset-password", body);
   return response;
 };

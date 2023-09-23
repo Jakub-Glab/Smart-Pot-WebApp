@@ -21,10 +21,12 @@ const myEventsList = [
 const SensorCalendar = (props) => (
   <div>
     <Calendar
+      selectable
       localizer={localizer}
       events={myEventsList}
-      startAccessor="start"
-      endAccessor="end"
+      defaultView={"month"}
+      views={["month"]}
+      style={{ height: "20rem" }}
     />
   </div>
 );

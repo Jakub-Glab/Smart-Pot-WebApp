@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getPlantHistoryByLimit } from "./hooks/api";
+import { getPlantHistoryByLimit } from "../hooks/api";
 import PlantChart from "./PlantChart";
 
 const PlantHistoryLimit = () => {

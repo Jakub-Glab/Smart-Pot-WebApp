@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { elastic as Menu } from "react-burger-menu";
 import "./assets/css/BurgerMenu.css";
-import { useAuth } from "./components/AuthContext";
+import { useAuth } from "./components/Context/AuthContext";
 import { logout, removeAuthToken } from "./components/hooks/api";
 
 const BurgerMenu = ({ setShowModal, setModalMessage }) => {
@@ -19,6 +19,7 @@ const BurgerMenu = ({ setShowModal, setModalMessage }) => {
         logoutUser();
         setModalMessage("Successfully Logged Out!");
         setShowModal(true); // Show the modal popup
+        window.localStorage.clear();
       }
     } catch (error) {
       console.error("Failed to log out", error);
@@ -36,6 +37,9 @@ const BurgerMenu = ({ setShowModal, setModalMessage }) => {
 
       <a className="menu-item" href="/statistics">
         Statistics
+      </a>
+      <a className="menu-item" href="/calendar">
+        Calendar
       </a>
       <a className="menu-item" href="/settings">
         Settings

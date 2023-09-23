@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "../assets/css/Login.css";
-import { useAuth } from "./AuthContext";
-import Modal from "./Modal";
+import "../../assets/css/Login.css";
+import { useAuth } from "../Context/AuthContext";
+import Modal from "../Modals/Modal";
+import Login from "./Login";
+import Register from "./Register";
+import ResetPassword from "./ResetPassword";
 import { useNavigate } from "react-router-dom";
 import {
   setAuthToken,
   login,
   register,
   requestPasswordReset,
-} from "./hooks/api";
+} from "../hooks/api";
 
-const LoginForm = ({ initialIsReset = false }) => {
+const AuthForm = ({ initialIsReset = false }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -143,112 +146,36 @@ const LoginForm = ({ initialIsReset = false }) => {
           }}
         />
         {isLogin && !isReset ? (
-          <div className="form">
-            {/* Login form */}
-            <header>Login</header>
-            <form onSubmit={handleLogin}>
-              <input
-                type="text"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input type="submit" className="button" value="Login" />
-            </form>
-            <div className="signup">
-              <span className="signup">
-                Forget password?
-                <label htmlFor="check-reset"> Reset password</label>
-              </span>
-            </div>
-            <div className="signup">
-              <span className="signup">
-                Dont have an account?
-                <label htmlFor="check"> Signup</label>
-              </span>
-            </div>
-          </div>
+          <Login
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
         ) : isReset ? (
-          <div className="form">
-            {/* Reset form */}
-            <header>Password Reset</header>
-            <form onSubmit={handleReset}>
-              <input
-                type="text"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="submit"
-                className="button"
-                value="Request reset Password"
-              />
-            </form>
-            <div className="signup">
-              <span className="signup">
-                Back to login?
-                <span
-                  className="link"
-                  onClick={() => {
-                    setIsLogin(true);
-                    setIsReset(false);
-                  }}
-                >
-                  {" "}
-                  Login
-                </span>
-              </span>
-            </div>
-          </div>
+          <ResetPassword
+            email={email}
+            setEmail={setEmail}
+            handleReset={handleReset}
+            setIsLogin={setIsLogin}
+            setIsReset={setIsReset}
+          />
         ) : (
-          <div className="form">
-            {/* Register form */}
-            <header>Signup</header>
-            <form onSubmit={handleRegister}>
-              <input
-                type="text"
-                placeholder="Enter your full name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Create a password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <input type="submit" className="button" value="Signup" />
-            </form>
-            <div className="signup">
-              <span className="signup">
-                Already have an account?
-                <label htmlFor="check"> Login</label>
-              </span>
-            </div>
-          </div>
+          <Register
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            confirmPassword={confirmPassword}
+            fullName={fullName}
+            setFullName={setFullName}
+            handleRegister={handleRegister}
+          />
         )}
       </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default AuthForm;

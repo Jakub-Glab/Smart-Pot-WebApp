@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const clearAuthContext = () => {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("refreshToken");
+    localStorage.clear();
     setUser(null);
   };
 

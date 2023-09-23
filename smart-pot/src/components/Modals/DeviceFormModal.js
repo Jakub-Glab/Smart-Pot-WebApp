@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DeviceSelectComponent from "./DeviceSelectComponent";
 
 const DeviceFormModal = ({ show, onClose, onSubmit }) => {
   const [name, setName] = useState("");
@@ -16,6 +17,15 @@ const DeviceFormModal = ({ show, onClose, onSubmit }) => {
     return null;
   }
 
+  const types = [
+    { name: "ESP", type: "ESP" },
+    { name: "NODEMCU", type: "NODEMCU" },
+  ];
+
+  const onChange = (e) => {
+    setType(e.type);
+  };
+
   return (
     <div className={`form${show ? " block-interaction" : ""}`}>
       <header>Add new device</header>
@@ -27,14 +37,9 @@ const DeviceFormModal = ({ show, onClose, onSubmit }) => {
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <br />
-        <input
-          type="text"
-          placeholder="Device ID"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          required
-        />
+        <br></br>
+        <DeviceSelectComponent options={types} onChange={onChange} />
+        <br></br>
         <div></div>
         <input type="submit" className="button" value="Add device" />
       </form>

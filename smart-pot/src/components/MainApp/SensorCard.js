@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import spacetime from "spacetime";
+import TimezoneContext from "../Context/TimezoneContext";
 
-const getSensorImage = (sensor, value) => {
+const getSensorImage = (sensor, value, tz) => {
+  const currentDatetime = spacetime.now(tz); // Using the timezone from your Settings component
+  const currentHour = currentDatetime.hour();
+  const moonImg = currentHour >= 22 || currentHour < 5;
   if (sensor === "temp") {
     if (value < 15) return "assets/img/temp_down.png";
     if (value > 45) return "assets/img/temp_up.png";
@@ -10,16 +15,21 @@ const getSensorImage = (sensor, value) => {
     if (value > 70) return "assets/img/rain_up.png";
     return "assets/img/rain_ok.png";
   } else if (sensor === "lux") {
-    if (value < 200) return "assets/img/sun_down.png";
+    if (value < 200 && !moonImg) return "assets/img/sun_down.png";
     if (value > 10000) return "assets/img/sun_up.png";
+    if (moonImg) return "assets/img/moon.png";
     return "assets/img/sun_ok.png";
   }
 };
 
-const isSensorValueNotOk = (sensor, value) => {
+const isSensorValueNotOk = (sensor, value, tz) => {
+  const currentDatetime = spacetime.now(tz); // Using the timezone from your Settings component
+  const currentHour = currentDatetime.hour();
+  const showSunlightTooltip = !(currentHour >= 18 || currentHour < 7);
   if (sensor === "temp" && (value < 15 || value > 45)) return true;
   if (sensor === "hum" && (value < 25 || value > 70)) return true;
-  if (sensor === "lux" && (value < 200 || value > 10000)) return true;
+  if (sensor === "lux" && showSunlightTooltip && (value < 200 || value > 10000))
+    return true;
   return false;
 };
 
@@ -41,10 +51,16 @@ const getTooltipMessage = (sensor, value) => {
 const SensorCard = ({ sensor, value, unit }) => {
   const [isNotOk, setIsNotOk] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const { tz, setTz } = useContext(TimezoneContext);
 
   useEffect(() => {
-    setIsNotOk(isSensorValueNotOk(sensor, value));
-  }, [sensor, value]);
+    const savedTz = localStorage.getItem("timezone");
+    console.log("Saved tz: ", savedTz);
+    if (savedTz) {
+      setTz(savedTz);
+    }
+    setIsNotOk(isSensorValueNotOk(sensor, value, tz));
+  }, [sensor, value, tz]);
 
   return (
     <div
@@ -80,7 +96,7 @@ const SensorCard = ({ sensor, value, unit }) => {
       )}
       <img
         className={`${sensor}Img`}
-        src={getSensorImage(sensor, value)}
+        src={getSensorImage(sensor, value, tz)}
         style={{ width: "32px", height: "32px" }}
         alt=""
       />
