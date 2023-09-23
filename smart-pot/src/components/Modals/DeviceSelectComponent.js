@@ -17,6 +17,7 @@ const DeviceSelectComponent = ({ options, onChange }) => {
       options={options}
       styles={deviceStyles}
       onChange={onChange}
+      isSearchable={false}
       placeholder="Select device"
       components={{
         IndicatorSeparator: () => null,

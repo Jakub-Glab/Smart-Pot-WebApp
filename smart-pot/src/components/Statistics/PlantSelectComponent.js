@@ -6,6 +6,7 @@ const DeviceSelectComponent = ({ options }) => {
   return (
     <Select
       options={options}
+      isSearchable={false}
       styles={plantStyles}
       getOptionLabel={(e) => (
         <div className="info__data">

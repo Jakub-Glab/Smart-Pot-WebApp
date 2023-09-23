@@ -17,6 +17,7 @@ const TimezoneSelectComponent = ({
       timezones={{ ...allTimezones }}
       onMenuOpen={onMenuOpen}
       onMenuClose={onMenuClose}
+      isSearchable={false}
     />
   );
 };

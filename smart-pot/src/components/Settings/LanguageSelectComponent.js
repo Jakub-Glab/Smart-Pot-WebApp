@@ -14,6 +14,7 @@ const LanguageSelectComponent = ({
       defaultValue={defaultValue}
       styles={languageStyles}
       onMenuOpen={onMenuOpen}
+      isSearchable={false}
       onMenuClose={onMenuClose}
       getOptionLabel={(e) => (
         <div style={{ alignItems: "center" }}>

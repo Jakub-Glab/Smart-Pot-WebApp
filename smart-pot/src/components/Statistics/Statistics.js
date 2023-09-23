@@ -24,7 +24,7 @@ const Statistics = () => {
       <div className="form">
         <h1>Statistics</h1>
         <h2>Select plant:</h2>
-        <PlantSelectComponent options={plants} />
+        <PlantSelectComponent options={plants} isSearchable={false} />
       </div>
     </div>
   );

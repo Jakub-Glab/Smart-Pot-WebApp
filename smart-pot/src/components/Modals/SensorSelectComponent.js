@@ -20,6 +20,7 @@ const SensorSelectComponent = ({ options, onChange }) => {
       options={options}
       styles={componentStyles}
       onChange={onChange}
+      isSearchable={false}
       placeholder="Select device"
       components={{
         IndicatorSeparator: () => null,

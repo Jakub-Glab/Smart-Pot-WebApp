@@ -38,7 +38,11 @@ const DeviceFormModal = ({ show, onClose, onSubmit }) => {
           required
         />
         <br></br>
-        <DeviceSelectComponent options={types} onChange={onChange} />
+        <DeviceSelectComponent
+          options={types}
+          onChange={onChange}
+          isSearchable={false}
+        />
         <br></br>
         <div></div>
         <input type="submit" className="button" value="Add device" />

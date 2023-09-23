@@ -62,7 +62,11 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
       <header>Change thresholds for sensors</header>
       <form onSubmit={handleSubmit}>
         <br />
-        <SensorSelectComponent options={types} onChange={handleSensorChange} />
+        <SensorSelectComponent
+          options={types}
+          onChange={handleSensorChange}
+          isSearchable={false}
+        />
         <div className="input-wrapper">
           <input
             type="number"

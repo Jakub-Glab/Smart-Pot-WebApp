@@ -56,7 +56,11 @@ const PlantFormModal = ({ show, onClose, onSubmit, devices }) => {
             marginBottom: "1.3rem",
           }}
         >
-          <DeviceSelectComponent options={devices} onChange={onChange} />
+          <DeviceSelectComponent
+            options={devices}
+            onChange={onChange}
+            isSearchable={false}
+          />
         </div>
         <div>
           <p>Choose Plant Image:</p>

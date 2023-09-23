@@ -94,6 +94,7 @@ const Settings = () => {
             <h2>Select timezone</h2>
             <TimezoneSelectComponent
               value={tz}
+              isSearchable={false}
               onChange={onChange}
               onMenuOpen={onMenuOpen}
               onMenuClose={onMenuClose}
@@ -105,6 +106,7 @@ const Settings = () => {
               defaultValue={defaultLanguageOption}
               onMenuOpen={onMenuOpen}
               onMenuClose={onMenuClose}
+              isSearchable={false}
             />
           </div>
         )}
