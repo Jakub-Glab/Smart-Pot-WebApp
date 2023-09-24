@@ -13,7 +13,7 @@ const deviceStyles = {
   }),
   indicatorsContainer: (styles) => ({
     ...styles,
-    paddingBottom: "10px",
+    paddingBottom: "20px",
   }),
   valueContainer: (styles) => ({
     ...styles,
@@ -29,6 +29,14 @@ const deviceStyles = {
     width: "100%",
     boxShadow: "4px 4px 16px #e1e1e1, -2px -2px 16px #fff",
   }),
+  singleValue: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
+  }),
+  placeholder: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
+  }),
   control: (styles) => ({
     ...styles,
     border: "0 !important",
@@ -37,7 +45,8 @@ const deviceStyles = {
     borderRadius: "2rem",
     backgroundColor: "#f8f8fc;",
     fontSize: "17px",
-    padding: "0 20px",
+    paddingLeft: "5px",
+    paddingRight: "20px",
     textAlign: "left",
     boxShadow: "4px 4px 16px #e1e1e1, -2px -2px 16px #fff",
   }),

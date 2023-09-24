@@ -59,6 +59,7 @@ const PlantFormModal = ({ show, onClose, onSubmit, devices }) => {
           <DeviceSelectComponent
             options={devices}
             onChange={onChange}
+            placeholder="Select device"
             isSearchable={false}
           />
         </div>

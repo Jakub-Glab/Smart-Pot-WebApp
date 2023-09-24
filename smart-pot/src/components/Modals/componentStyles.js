@@ -11,6 +11,10 @@ const componentStyles = {
     borderRadius: "2rem",
     minHeight: "245px",
   }),
+  indicatorsContainer: (styles) => ({
+    ...styles,
+    paddingBottom: "20px",
+  }),
   menu: (styles, state) => ({
     ...styles,
 
@@ -22,15 +26,25 @@ const componentStyles = {
     width: "100%",
     boxShadow: "4px 4px 16px #e1e1e1, -2px -2px 16px #fff",
   }),
+  placeholder: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
+  }),
   control: (styles) => ({
     ...styles,
     border: "0 !important",
     borderRadius: "2rem",
     backgroundColor: "#f8f8fc;",
-    padding: "0 20px",
+    paddingLeft: "5px",
+    paddingRight: "20px",
     marginBottom: "1.3rem",
+    height: "60px",
     textAlign: "left",
     boxShadow: "4px 4px 16px #e1e1e1, -2px -2px 16px #fff",
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {

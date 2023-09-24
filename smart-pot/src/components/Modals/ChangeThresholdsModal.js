@@ -66,6 +66,7 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
           options={types}
           onChange={handleSensorChange}
           isSearchable={false}
+          placeholder="Select sensor type"
         />
         <div className="input-wrapper">
           <input

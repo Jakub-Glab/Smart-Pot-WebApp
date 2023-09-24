@@ -16,6 +16,9 @@ const LanguageSelectComponent = ({
       onMenuOpen={onMenuOpen}
       isSearchable={false}
       onMenuClose={onMenuClose}
+      components={{
+        IndicatorSeparator: () => null,
+      }}
       getOptionLabel={(e) => (
         <div style={{ alignItems: "center" }}>
           {e.flagPath && (

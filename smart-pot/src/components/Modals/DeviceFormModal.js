@@ -42,6 +42,7 @@ const DeviceFormModal = ({ show, onClose, onSubmit }) => {
           options={types}
           onChange={onChange}
           isSearchable={false}
+          placeholder="Select device type"
         />
         <br></br>
         <div></div>

@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import deviceStyles from "./deviceStyles";
 
-const DeviceSelectComponent = ({ options, onChange }) => {
+const DeviceSelectComponent = ({ options, onChange, placeholder }) => {
   const deviceSrc = (e) => {
     if (e.type === "ESP") {
       return "../../assets/img/device_esp.png";
@@ -18,7 +18,7 @@ const DeviceSelectComponent = ({ options, onChange }) => {
       styles={deviceStyles}
       onChange={onChange}
       isSearchable={false}
-      placeholder="Select device"
+      placeholder={placeholder}
       components={{
         IndicatorSeparator: () => null,
       }}

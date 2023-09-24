@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import componentStyles from "./componentStyles";
 
-const SensorSelectComponent = ({ options, onChange }) => {
+const SensorSelectComponent = ({ options, onChange, placeholder }) => {
   const deviceSrc = (e) => {
     if (e.value === "lux") {
       return "../../assets/img/sun.png";
@@ -21,7 +21,7 @@ const SensorSelectComponent = ({ options, onChange }) => {
       styles={componentStyles}
       onChange={onChange}
       isSearchable={false}
-      placeholder="Select device"
+      placeholder={placeholder}
       components={{
         IndicatorSeparator: () => null,
       }}

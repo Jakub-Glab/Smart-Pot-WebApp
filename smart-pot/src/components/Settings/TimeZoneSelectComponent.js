@@ -18,6 +18,10 @@ const TimezoneSelectComponent = ({
       onMenuOpen={onMenuOpen}
       onMenuClose={onMenuClose}
       isSearchable={false}
+      placeholder="Select timezone"
+      components={{
+        IndicatorSeparator: () => null,
+      }}
     />
   );
 };

@@ -19,10 +19,25 @@ const timezoneStyles = {
   }),
   control: (styles) => ({
     ...styles,
+    height: "60px",
+    paddingLeft: "5px",
+    paddingRight: "20px",
     border: "0 !important",
     borderRadius: "2rem",
     backgroundColor: "#f8f8fc;",
     boxShadow: "4px 4px 16px #e1e1e1, -2px -2px 16px #fff",
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
+  }),
+  placeholder: (styles) => ({
+    ...styles,
+    paddingBottom: "15px",
+  }),
+  indicatorsContainer: (styles) => ({
+    ...styles,
+    paddingBottom: "20px",
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
