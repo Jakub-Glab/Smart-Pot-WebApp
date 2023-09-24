@@ -19,6 +19,12 @@ body::-webkit-scrollbar {
   .manageContainer {
     --screen-size: 100vh;
   }
+  .statisticsContainer {
+    --screen-size: 100vh;
+  }
+  .settingsContainer {
+    --screen-size: 100vh;
+  }
 }
 .manageContainer {
   position: fixed;

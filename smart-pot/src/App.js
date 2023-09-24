@@ -75,9 +75,10 @@ const App = () => {
   return (
     <div className="drop">
       <div
+        className="parent-container"
         style={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
           height: "100%",
         }}

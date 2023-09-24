@@ -8,10 +8,7 @@ const DropCard = React.memo(({ id, imgSrc, name, onClick }) => {
         <div>
           <h1 className="drop__name">{name}</h1>
         </div>
-        <div
-          className="Sensors"
-          style={{ float: "right", paddingLeft: "5rem" }}
-        >
+        <div className="sensors__card">
           <img
             className="temp"
             src="assets/img/temp.png"

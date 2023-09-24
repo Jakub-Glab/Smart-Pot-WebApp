@@ -17,6 +17,18 @@
   --screen-size: 50vh;
 }
 
+@media only screen and (hover: none) and (pointer: coarse) {
+  .manageContainer {
+    --screen-size: 100vh;
+  }
+  .drop__background {
+    --screen-size: 100vh;
+  }
+  .drop__container {
+    --screen-size: 100vh;
+  }
+}
+
 /*===== BASE =====*/
 
 *,
@@ -62,25 +74,38 @@ img {
   display: flex;
 }
 
+.parent-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 30%;
+  max-width: 100%;
+}
+
 .drop__background {
-  position: absolute;
-  left: 50% - (width/2);
-  top: 3rem;
-  width: 26.5rem;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: var(--screen-size);
+  width: 100%;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
-  height: 30rem;
+  height: 20rem;
   background-color: rgb(119, 187, 122);
   box-shadow: 4px 4px 16px #e1e1e1;
   overflow: hidden;
 }
 
 .drop__container {
-  position: absolute;
-  top: 21.5rem;
+  position: relative;
+  transform: translateX(-50%); /* Adjusted transform property */
+  max-width: var(--screen-size);
+  width: 100%;
+  min-height: 15rem;
+  left: 50%;
   row-gap: 1rem;
   padding: 2rem;
-  left: 50% - (width/2);
   padding-top: 2rem;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 2rem;
@@ -88,43 +113,33 @@ img {
   border-bottom-right-radius: 2rem;
   background-color: #f8f8fc;
   box-shadow: 4px 4px 16px #e1e1e1;
-  width: 26.5rem;
-  min-height: 15rem;
   pointer-events: none;
+  margin-top: -12rem;
+  top: 0; /* Added top property */
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  .drop__container {
+    margin-top: -14rem;
+  }
 }
 
 .drop__container > * {
   pointer-events: auto;
 }
 
-.drop__container.with-shade::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20%;
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+.drop__card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-
-.drop__container.with-shade.show-plus::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 20%;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
-}
-
-.drop__card,
 .drop__data {
   display: flex;
   align-items: center;
 }
 
 .drop__card {
-  width: 360px;
+  width: 100%;
   justify-content: space-between;
   padding: 0.75rem 1.25rem 0.75rem 0.75rem;
   background-color: var(--first-color-lighten);
@@ -146,6 +161,23 @@ img {
   height: 55px;
   border-radius: 50%;
   margin-right: 1rem;
+}
+
+.drop__img_big {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  right: 50%;
+  top: -0.25rem;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  .drop__img_big {
+    width: 280px;
+    height: 280px;
+  }
 }
 
 .drop__name {
@@ -175,16 +207,43 @@ img {
   box-shadow: 8px 8px 32px #e1e1e1;
 }
 
+.card__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  padding-left: 16.3rem;
+  padding-right: 1rem;
+  padding-top: 3rem;
+}
+
 .card {
   position: relative;
-  top: 2rem;
-  left: 13.75rem;
-  width: 190px;
+  width: 200px;
   justify-content: space-between;
   padding: 0.25rem 1.25rem 0.25rem 0.25rem;
   background-color: #fff;
   border-radius: 2.5rem;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.sensors__card {
+  float: right;
+  padding-left: 8.75rem;
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  .card__container {
+    padding-left: 12rem;
+    padding-top: 1rem;
+  }
+
+  .card {
+    width: 170px;
+  }
+
+  .sensors__card {
+    padding-left: 2rem;
+  }
 }
 
 /* Class name for the dragging item */

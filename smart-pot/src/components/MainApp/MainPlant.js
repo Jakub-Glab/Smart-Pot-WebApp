@@ -8,12 +8,11 @@ const MainPlant = React.memo(({ plantCurrent, temperature, humidity, lux }) => {
       <CurrentPlantImage src={plantCurrent} />
       <br />
       <br />
-      <SensorCard sensor="temp" value={temperature} unit="°C" />
-      <br />
-      <SensorCard sensor="lux" value={lux} unit="lx" />
-      <br />
-      <SensorCard sensor="hum" value={humidity} unit="%" />
-      <br />
+      <div className="card__container">
+        <SensorCard sensor="temp" value={temperature} unit="°C" />
+        <SensorCard sensor="lux" value={lux} unit="lx" />
+        <SensorCard sensor="hum" value={humidity} unit="%" />
+      </div>
     </div>
   );
 });
