@@ -24,12 +24,6 @@ const DropContainer = ({
           .map((child) =>
             plants.find((plant) => plant.id === Number(child.id))
           );
-        localStorage.setItem(
-          "sortedPlants",
-          JSON.stringify(newSortedPlants.map((p) => p.id))
-        );
-
-        setSelectedPlant(newSortedPlants[0]);
       },
     });
   }, [plants]);

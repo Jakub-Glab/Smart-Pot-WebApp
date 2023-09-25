@@ -4,6 +4,12 @@
 
 /*===== VARIABLES CSS =====*/
 
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 :root {
   /*===== Colors =====*/
   --first-color: #272a3a;
@@ -177,6 +183,7 @@ img {
   .drop__img_big {
     width: 280px;
     height: 280px;
+    top: -0.55rem;
   }
 }
 
@@ -233,7 +240,7 @@ img {
 
 @media only screen and (hover: none) and (pointer: coarse) {
   .card__container {
-    padding-left: 12rem;
+    padding-left: 14rem;
     padding-top: 1rem;
   }
 

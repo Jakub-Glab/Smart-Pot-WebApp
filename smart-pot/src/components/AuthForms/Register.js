@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import "../../i18n/i18n";
 
 const Register = ({
   email,
@@ -11,9 +13,10 @@ const Register = ({
   setConfirmPassword,
   handleRegister,
 }) => {
+  const { t, i18n } = useTranslation();
   return (
     <div className="form">
-      <header>Signup</header>
+      <header>{t("AuthForm.signup")}</header>
       <form onSubmit={handleRegister}>
         <input
           type="text"
@@ -39,12 +42,16 @@ const Register = ({
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <input type="submit" className="button" value="Signup" />
+        <input
+          type="submit"
+          className="button"
+          value={t("AuthForm.signupRef")}
+        />
       </form>
       <div className="signup">
         <span className="signup">
-          Already have an account?
-          <label htmlFor="check"> Login</label>
+          {t("AuthForm.alreadyHaveAccount")}
+          <label htmlFor="check"> {t("AuthForm.loginRef")}</label>
         </span>
       </div>
     </div>

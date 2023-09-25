@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import "../../i18n/i18n";
 
 const ResetPassword = ({
   email,
@@ -7,9 +9,11 @@ const ResetPassword = ({
   setIsLogin,
   setIsReset,
 }) => {
+  const { t, i18n } = useTranslation();
+
   return (
     <div className="form">
-      <header>Password Reset</header>
+      <header>{t("AuthForm.passwordReset")}</header>
       <form onSubmit={handleReset}>
         <input
           type="text"
@@ -25,7 +29,7 @@ const ResetPassword = ({
       </form>
       <div className="signup">
         <span className="signup">
-          Back to login?
+          {t("AuthForm.backToLogin")}
           <span
             className="link"
             onClick={() => {
@@ -34,7 +38,7 @@ const ResetPassword = ({
             }}
           >
             {" "}
-            Login
+            {t("AuthForm.loginRef")}
           </span>
         </span>
       </div>

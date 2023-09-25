@@ -3,9 +3,12 @@ import { elastic as Menu } from "react-burger-menu";
 import "./assets/css/BurgerMenu.css";
 import { useAuth } from "./components/Context/AuthContext";
 import { logout, removeAuthToken } from "./components/hooks/api";
+import { useTranslation } from "react-i18next";
+import "./i18n/i18n";
 
 const BurgerMenu = ({ setShowModal, setModalMessage }) => {
   const { logoutUser } = useAuth(); // Get setUser from AuthContext
+  const { t } = useTranslation();
 
   const showSettings = (event) => {
     event.preventDefault();
@@ -29,23 +32,23 @@ const BurgerMenu = ({ setShowModal, setModalMessage }) => {
   return (
     <Menu>
       <a className="menu-item" href="/">
-        Home
+        {t("BurgerMenu.home")}
       </a>
       <a className="menu-item" href="/manage-plants">
-        Manage plants
+        {t("BurgerMenu.manage_plants")}
       </a>
 
       <a className="menu-item" href="/statistics">
-        Statistics
+        {t("BurgerMenu.statistics")}
       </a>
       <a className="menu-item" href="/calendar">
-        Calendar
+        {t("BurgerMenu.calendar")}
       </a>
       <a className="menu-item" href="/settings">
-        Settings
+        {t("BurgerMenu.settings")}
       </a>
       <a className="menu-item" onClick={logoutuser}>
-        Log Out
+        {t("BurgerMenu.logout")}
       </a>
     </Menu>
   );

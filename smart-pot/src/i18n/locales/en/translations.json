@@ -1,0 +1,53 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "BurgerMenu": {
+    "home": "Home",
+    "manage_plants": "Manage Plants",
+    "statistics": "Statistics",
+    "calendar": "Calendar",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "AuthForm": {
+    "login": "Login",
+    "signup": "Signup",
+    "email": "Email",
+    "passwordReset": "Password Reset",
+    "forgotPassword": "Forget password?",
+    "dontHaveAccount": "Dont have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signupRef": "Signup",
+    "loginRef": "Login",
+    "resetRef": "Reset password",
+    "requestPasswordReset": "Request password reset",
+    "backToLogin": "Back to login?"
+  },
+  "Settings": {
+    "settings": "Settings",
+    "account": "Account",
+    "selectLanguage": "Select language",
+    "selectTimezone": "Select timezone",
+    "setThresholds": "Set custom thresholds",
+    "deleteAccount": "Delete account",
+    "polish": "Polish",
+    "english": "English",
+    "selectPlaceholder": "Select...",
+    "ThresholdForm": {
+      "title": "Change thresholds for sensors",
+      "selectSensor": "Select sensor type",
+      "enterMin": "Enter new minimum value",
+      "enterMax": "Enter new maximum value",
+      "save": "Save values",
+      "close": "Close"
+    },
+    "DeleteAccountModal": {
+      "question": "Are you sure you want to delete your account?",
+      "confirmPassword": "Confirm your password to delete your account",
+      "enterPassword": "Enter your password",
+      "confirmEnterPassword": "Confirm your password",
+      "delete": "Delete account",
+      "close": "Close"
+    }
+  }
+}

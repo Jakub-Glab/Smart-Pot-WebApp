@@ -1,0 +1,53 @@
+{
+  "yes": "Tak",
+  "no": "Nie",
+  "BurgerMenu": {
+    "home": "Home",
+    "manage_plants": "Zarządzaj",
+    "statistics": "Statystyki",
+    "calendar": "Kalendarz",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj"
+  },
+  "AuthForm": {
+    "login": "Logowanie",
+    "signup": "Rejestracja",
+    "email": "Email",
+    "passwordReset": "Resetowanie hasła",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "dontHaveAccount": "Nie masz konta?",
+    "alreadyHaveAccount": "Masz już konto?",
+    "signupRef": "Zarejestruj się",
+    "loginRef": "Zaloguj się",
+    "resetRef": "Resetuj hasło",
+    "requestPasswordReset": "Wyślij link do resetowania hasła",
+    "backToLogin": "Chcesz wrócić do logowania?"
+  },
+  "Settings": {
+    "settings": "Ustawienia",
+    "account": "Konto",
+    "selectLanguage": "Wybierz język",
+    "selectTimezone": "Wybierz strefę czasową",
+    "setThresholds": "Ustaw niestandardowe progi",
+    "deleteAccount": "Usuń konto",
+    "polish": "Polski",
+    "english": "Angielski",
+    "selectPlaceholder": "Wybierz...",
+    "ThresholdForm": {
+      "title": "Zmień progi dla czujników",
+      "selectSensor": "Wybierz typ czujnika",
+      "enterMin": "Wprowadź nową wartość minimalną",
+      "enterMax": "Wprowadź nową wartość maksymalną",
+      "save": "Zapisz wartości",
+      "close": "Zamknij"
+    },
+    "DeleteAccountModal": {
+      "question": "Czy na pewno chcesz usunąć swoje konto?",
+      "confirmPassword": "Potwierdź swoje hasło, aby usunąć konto",
+      "enterPassword": "Wprowadź swoje hasło",
+      "confirmEnterPassword": "Potwierdź swoje hasło",
+      "delete": "Usuń konto",
+      "close": "Zamknij"
+    }
+  }
+}

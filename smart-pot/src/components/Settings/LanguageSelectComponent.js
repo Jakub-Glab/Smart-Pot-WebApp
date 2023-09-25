@@ -7,7 +7,9 @@ const LanguageSelectComponent = ({
   options,
   onMenuClose,
   onMenuOpen,
+  onChange,
 }) => {
+  console.log("Default value: ", defaultValue);
   return (
     <Select
       options={options}
@@ -15,6 +17,7 @@ const LanguageSelectComponent = ({
       styles={languageStyles}
       onMenuOpen={onMenuOpen}
       isSearchable={false}
+      onChange={onChange}
       onMenuClose={onMenuClose}
       components={{
         IndicatorSeparator: () => null,

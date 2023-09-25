@@ -187,3 +187,29 @@ export const requestPasswordReset = async (email) => {
   const response = await API.post("/api/v1/recover-password", body);
   return response;
 };
+
+export const getCurrentUser = async () => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const response = await API.get("/api/v1/users/me");
+  return response;
+};
+
+export const setTimezone = async (timezone) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const body = {
+    timezone,
+  };
+  console.log("Setting timezone: ", timezone);
+  const response = await API.patch("/api/v1/users/update-timezone", body);
+  return response;
+};
+
+export const setLanguage = async (language) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  const body = {
+    language,
+  };
+
+  const response = await API.patch("/api/v1/users/update-language", body);
+  return response;
+};

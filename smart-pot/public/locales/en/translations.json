@@ -1,0 +1,24 @@
+{
+  "BurgerMenu": {
+    "home": "Home",
+    "manage_plants": "Manage Plants",
+    "statistics": "Statistics",
+    "calendar": "Calendar",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "AuthForm": {
+    "login": "Login",
+    "signup": "Signup",
+    "email": "Email",
+    "passwordReset": "Password Reset",
+    "forgotPassword": "Forget password?",
+    "dontHaveAccount": "Dont have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signupRef": "Signup",
+    "loginRef": "Login",
+    "resetRef": "Reset password",
+    "requestPasswordReset": "Request password reset",
+    "backToLogin": "Back to login?"
+  }
+}

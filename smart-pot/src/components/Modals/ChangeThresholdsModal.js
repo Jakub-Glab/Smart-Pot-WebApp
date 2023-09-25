@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import SensorSelectComponent from "./SensorSelectComponent";
+import { useTranslation } from "react-i18next";
+import "../../i18n/i18n";
 
 import "../../assets/css/Test.css";
 
@@ -7,6 +9,7 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
   const [sensor, setSensor] = useState("");
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,21 +62,21 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
 
   return (
     <div className={`form${show ? " block-interaction" : ""}`}>
-      <header>Change thresholds for sensors</header>
+      <header>{t("Settings.ThresholdForm.title")}</header>
       <form onSubmit={handleSubmit}>
         <br />
         <SensorSelectComponent
           options={types}
           onChange={handleSensorChange}
           isSearchable={false}
-          placeholder="Select sensor type"
+          placeholder={t("Settings.ThresholdForm.selectSensor")}
         />
         <div className="input-wrapper">
           <input
             type="number"
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder="Enter new maximum value"
+            placeholder={t("Settings.ThresholdForm.enterMax")}
             value={maxValue}
             onChange={handleMaxValueChange}
             required
@@ -85,7 +88,7 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
             type="number"
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder="Enter new minimum value"
+            placeholder={t("Settings.ThresholdForm.enterMin")}
             value={minValue}
             onChange={handleMinValueChange}
             required
@@ -93,9 +96,18 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
           <span className="input-unit">{getUnit()}</span>
         </div>
         <div></div>
-        <input type="submit" className="button" value="Save values" />
+        <input
+          type="submit"
+          className="button"
+          value={t("Settings.ThresholdForm.save")}
+        />
       </form>
-      <input type="button" className="button" onClick={onClose} value="Close" />
+      <input
+        type="button"
+        className="button"
+        onClick={onClose}
+        value={t("Settings.ThresholdForm.close")}
+      />
     </div>
   );
 };
