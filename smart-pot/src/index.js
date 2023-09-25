@@ -13,7 +13,10 @@ import Statistics from "./components/Statistics/Statistics";
 import Settings from "./components/Settings/Settings";
 import ConfirmResetPassword from "./components/Modals/ConfirmResetPasswordModal";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import TimezoneContext from "./components/Context/TimezoneContext";
+import "./i18n/i18n";
+import db from "./components/hooks/db";
 
 const AppRoutes = ({ setShowMenu }) => {
   const { user, isLoading } = useAuth();
@@ -54,6 +57,24 @@ const MainComponent = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [tz, setTz] = useState(""); // Mocking initial empty state as if the data isn't loaded yet
   const [dataLoaded, setDataLoaded] = useState(false); // State to check if data is loaded or not
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    db.settings
+      .orderBy("id") // Assumes 'id' is an auto-incrementing field
+      .reverse() // Sorts the results in descending order
+      .first() // Fetches the first (latest) item
+      .then((userSettings) => {
+        if (userSettings) {
+          setTz(userSettings.timezone);
+          if (userSettings.language === "ENG") i18n.changeLanguage("en");
+          if (userSettings.language === "PL") i18n.changeLanguage("pl");
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user settings: ", error);
+      });
+  }, []);
 
   useEffect(() => {
     const handleClearAuth = () => {

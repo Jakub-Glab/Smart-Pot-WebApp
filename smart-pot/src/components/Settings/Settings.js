@@ -22,6 +22,7 @@ const Settings = () => {
   const [isSelectExpanded, setIsSelectExpanded] = useState(false);
   const [language, setLanguage] = useState(null);
   const [defaultLanguageOption, setDefaultLanguageOption] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { t, i18n } = useTranslation();
 
   useMemo(() => {
@@ -58,8 +59,12 @@ const Settings = () => {
           const matchingLanguageOption = languageOptions.find(
             (option) => option.value === userSettings.language
           );
+          console.log("Matching language option: ", matchingLanguageOption);
           setDefaultLanguageOption(matchingLanguageOption);
+          if (userSettings.language === "ENG") i18n.changeLanguage("en");
+          if (userSettings.language === "PL") i18n.changeLanguage("pl");
         }
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Failed to fetch user settings: ", error);
@@ -132,62 +137,64 @@ const Settings = () => {
         height: "100%",
       }}
     >
-      <div
-        className={isSelectExpanded ? "settingsContainer" : "manageContainer"}
-      >
-        {" "}
-        {/* Updated line */}
-        {!showDeleteAccountModal && !showChangeThresholdsModal && (
-          <div className="form">
-            <header>{t("Settings.settings")}</header>
-            <h2>{t("Settings.account")}</h2>
-            <br />
-            <input
-              type="button"
-              value={t("Settings.setThresholds")}
-              onClick={() => setShowChangeThresholdsModal(true)}
+      {isLoading ? (
+        <div>Loading...</div> // Show a loading indicator while data is being loaded
+      ) : (
+        <div
+          className={isSelectExpanded ? "settingsContainer" : "manageContainer"}
+        >
+          {!showDeleteAccountModal && !showChangeThresholdsModal && (
+            <div className="form">
+              <header>{t("Settings.settings")}</header>
+              <h2>{t("Settings.account")}</h2>
+              <br />
+              <input
+                type="button"
+                value={t("Settings.setThresholds")}
+                onClick={() => setShowChangeThresholdsModal(true)}
+              />
+              <input
+                type="button"
+                value={t("Settings.deleteAccount")}
+                onClick={() => setShowDeleteAccountModal(true)} // Toggle the modal on
+              />
+              <h2>{t("Settings.selectTimezone")}</h2>
+              <TimezoneSelectComponent
+                value={tz}
+                isSearchable={false}
+                defaultLanguageOption={defaultLanguageOption}
+                onChange={onTimezoneChange}
+                onMenuOpen={onMenuOpen}
+                onMenuClose={onMenuClose}
+                placeholder={t("Settings.selectPlaceholder")}
+              />
+              <br />
+              <h2>{t("Settings.selectLanguage")}</h2>
+              <LanguageSelectComponent
+                options={languageOptions}
+                defaultValue={defaultLanguageOption}
+                placeholder={t("Settings.selectPlaceholder")}
+                onChange={onLanguageChange}
+                onMenuOpen={onMenuOpen}
+                onMenuClose={onMenuClose}
+                isSearchable={false}
+              />
+            </div>
+          )}
+          {showDeleteAccountModal && (
+            <DeleteAccountModal
+              show={showDeleteAccountModal}
+              onClose={() => setShowDeleteAccountModal(false)} // Toggle the modal off
             />
-            <input
-              type="button"
-              value={t("Settings.deleteAccount")}
-              onClick={() => setShowDeleteAccountModal(true)} // Toggle the modal on
+          )}
+          {showChangeThresholdsModal && (
+            <ChangeThresholdsModal
+              show={showChangeThresholdsModal}
+              onClose={() => setShowChangeThresholdsModal(false)} // Toggle the modal off
             />
-            <h2>{t("Settings.selectTimezone")}</h2>
-            <TimezoneSelectComponent
-              value={tz}
-              isSearchable={false}
-              defaultLanguageOption={defaultLanguageOption}
-              onChange={onTimezoneChange}
-              onMenuOpen={onMenuOpen}
-              onMenuClose={onMenuClose}
-              placeholder={t("Settings.selectPlaceholder")}
-            />
-            <br />
-            <h2>{t("Settings.selectLanguage")}</h2>
-            <LanguageSelectComponent
-              options={languageOptions}
-              defaultValue={defaultLanguageOption}
-              placeholder={t("Settings.selectPlaceholder")}
-              onChange={onLanguageChange}
-              onMenuOpen={onMenuOpen}
-              onMenuClose={onMenuClose}
-              isSearchable={false}
-            />
-          </div>
-        )}
-        {showDeleteAccountModal && (
-          <DeleteAccountModal
-            show={showDeleteAccountModal}
-            onClose={() => setShowDeleteAccountModal(false)} // Toggle the modal off
-          />
-        )}
-        {showChangeThresholdsModal && (
-          <ChangeThresholdsModal
-            show={showChangeThresholdsModal}
-            onClose={() => setShowChangeThresholdsModal(false)} // Toggle the modal off
-          />
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
