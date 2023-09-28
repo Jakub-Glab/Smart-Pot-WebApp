@@ -54,7 +54,7 @@ const averageData = (timeData, valueData, intervalMinutes = 15) => {
 
   for (let i = 0; i < averagedTimeData.length; i++) {
     let date = new Date(averagedTimeData[i]);
-    date.setHours(date.getHours() + 4);
+    date.setHours(date.getHours());
     averagedTimeData[i] = date.toISOString();
   }
 

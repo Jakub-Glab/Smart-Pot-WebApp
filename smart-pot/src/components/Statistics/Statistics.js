@@ -100,7 +100,7 @@ const Statistics = () => {
 
       eventsList.push(
         {
-          title: `Sensors Statistics: `,
+          title: `Stats: `,
           start: dateStart,
           end: dateEnd,
         },

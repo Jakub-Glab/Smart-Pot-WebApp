@@ -213,7 +213,7 @@ export const setPlantSensorTresholds = async (plantId, tresholdId, payload) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
   console.log(payload);
   const response = await API.patch(
-    `/api/v1/sensor-threshold/update-threshold/${plantId}/${tresholdId}`,
+    `/api/v1/sensor-threshold/update-threshold/${plantId}`,
     payload
   );
   return response;
