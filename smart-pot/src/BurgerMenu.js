@@ -41,9 +41,6 @@ const BurgerMenu = ({ setShowModal, setModalMessage }) => {
       <a className="menu-item" href="/statistics">
         {t("BurgerMenu.statistics")}
       </a>
-      <a className="menu-item" href="/calendar">
-        {t("BurgerMenu.calendar")}
-      </a>
       <a className="menu-item" href="/settings">
         {t("BurgerMenu.settings")}
       </a>

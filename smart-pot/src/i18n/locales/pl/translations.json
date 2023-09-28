@@ -1,11 +1,16 @@
 {
   "yes": "Tak",
   "no": "Nie",
+  "plant": "Roślina",
+  "device": "Urządzenie",
+  "plants": "Rośliny",
+  "devices": "Urządzenia",
+  "delete": "Usuń",
   "BurgerMenu": {
     "home": "Home",
     "manage_plants": "Zarządzaj",
     "statistics": "Statystyki",
-    "calendar": "Kalendarz",
+    "calendar": "Wykresy",
     "settings": "Ustawienia",
     "logout": "Wyloguj"
   },
@@ -35,6 +40,9 @@
     "selectPlaceholder": "Wybierz...",
     "ThresholdForm": {
       "title": "Zmień progi dla czujników",
+      "luxSensorType": "Czujnik światła",
+      "humSensorType": "Czujnik wilgotności gleby",
+      "tempSensorType": "Czujnik temperatury",
       "selectSensor": "Wybierz typ czujnika",
       "enterMin": "Wprowadź nową wartość minimalną",
       "enterMax": "Wprowadź nową wartość maksymalną",
@@ -49,5 +57,10 @@
       "delete": "Usuń konto",
       "close": "Zamknij"
     }
+  },
+  "Manage": {
+    "Manage": "Zarządzaj",
+    "deletePlantModalMessage": "Jesteś pewny że chcesz usunąć tę roślinę?",
+    "deleteDeviceModalMessage": "Jesteś pewny że chcesz usunąć to urządzenie?"
   }
 }

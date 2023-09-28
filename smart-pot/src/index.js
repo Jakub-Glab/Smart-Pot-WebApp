@@ -13,10 +13,12 @@ import Statistics from "./components/Statistics/Statistics";
 import Settings from "./components/Settings/Settings";
 import ConfirmResetPassword from "./components/Modals/ConfirmResetPasswordModal";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "./components/hooks/api";
 import { useTranslation } from "react-i18next";
 import TimezoneContext from "./components/Context/TimezoneContext";
 import "./i18n/i18n";
 import db from "./components/hooks/db";
+import SensorCalendar from "./components/Statistics/SensorCalendar";
 
 const AppRoutes = ({ setShowMenu }) => {
   const { user, isLoading } = useAuth();
@@ -74,6 +76,15 @@ const MainComponent = () => {
       .catch((error) => {
         console.error("Failed to fetch user settings: ", error);
       });
+  }, []);
+
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      console.log("User: ", user);
+      setTz(user.data.timezone);
+      if (user.data.language === "ENG") i18n.changeLanguage("en");
+      if (user.data.language === "PL") i18n.changeLanguage("pl");
+    });
   }, []);
 
   useEffect(() => {

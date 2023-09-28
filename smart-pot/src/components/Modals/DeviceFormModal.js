@@ -19,7 +19,7 @@ const DeviceFormModal = ({ show, onClose, onSubmit }) => {
 
   const types = [
     { name: "ESP", type: "ESP" },
-    { name: "NODEMCU", type: "NODEMCU" },
+    { name: "Raspberry PI", type: "RASPBERRYPI" },
   ];
 
   const onChange = (e) => {

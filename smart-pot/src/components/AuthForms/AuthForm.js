@@ -168,6 +168,7 @@ const AuthForm = ({ initialIsReset = false }) => {
             password={password}
             setPassword={setPassword}
             confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
             fullName={fullName}
             setFullName={setFullName}
             handleRegister={handleRegister}

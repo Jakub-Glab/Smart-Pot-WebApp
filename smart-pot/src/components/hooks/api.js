@@ -167,10 +167,6 @@ export const getPlantHistoryByDate = async (
   return response;
 };
 
-export const resetPassword = async (email, password) => {
-  console.log("Not implemented yet");
-};
-
 export const changePassword = async (password) => {
   const body = {
     token: localStorage.getItem("accessToken"),
@@ -199,17 +195,26 @@ export const setTimezone = async (timezone) => {
   const body = {
     timezone,
   };
-  console.log("Setting timezone: ", timezone);
   const response = await API.patch("/api/v1/users/update-timezone", body);
   return response;
 };
 
-export const setLanguage = async (language) => {
+export const setUserLanguage = async (language) => {
   setAuthToken(sessionStorage.getItem("accessToken"));
   const body = {
     language,
   };
 
   const response = await API.patch("/api/v1/users/update-language", body);
+  return response;
+};
+
+export const setPlantSensorTresholds = async (plantId, tresholdId, payload) => {
+  setAuthToken(sessionStorage.getItem("accessToken"));
+  console.log(payload);
+  const response = await API.patch(
+    `/api/v1/sensor-threshold/update-threshold/${plantId}/${tresholdId}`,
+    payload
+  );
   return response;
 };

@@ -2,16 +2,7 @@ import React from "react";
 import Select from "react-select";
 import deviceStyles from "./deviceStyles";
 
-const DeviceSelectComponent = ({ options, onChange, placeholder }) => {
-  const deviceSrc = (e) => {
-    if (e.type === "ESP") {
-      return "../../assets/img/device_esp.png";
-    }
-    if (e.type === "RASPBERRYPI") {
-      return "../../assets/img/device_pi.png";
-    }
-  };
-
+const PlantSelectComponent = ({ options, onChange, placeholder, value }) => {
   return (
     <Select
       options={options}
@@ -19,12 +10,13 @@ const DeviceSelectComponent = ({ options, onChange, placeholder }) => {
       onChange={onChange}
       isSearchable={false}
       placeholder={placeholder}
+      value={value}
       components={{
         IndicatorSeparator: () => null,
       }}
       getOptionLabel={(e) => (
         <div className="info__data">
-          <img src={deviceSrc(e)} alt="img" className="info__img_small" />
+          <img src={e.imgsrc} alt="img" className="info__img_small" />
           <div>
             <p className="info__name">{e.name}</p>
           </div>
@@ -34,4 +26,4 @@ const DeviceSelectComponent = ({ options, onChange, placeholder }) => {
   );
 };
 
-export default DeviceSelectComponent;
+export default PlantSelectComponent;

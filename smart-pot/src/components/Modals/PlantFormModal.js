@@ -35,7 +35,6 @@ const PlantFormModal = ({ show, onClose, onSubmit, devices }) => {
   }
 
   const onChange = (e) => {
-    console.log("Selected timezone", e);
     setId(e.id);
   };
 

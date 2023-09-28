@@ -4,20 +4,28 @@ import { useTranslation } from "react-i18next";
 import "../../i18n/i18n";
 
 import "../../assets/css/Test.css";
+import PlantSelectComponent from "./PlantSelectComponent";
+import { setPlantSensorTresholds } from "../hooks/api";
 
-const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
+const ChangeThresholdsModal = ({ show, onClose, plants, onSubmit }) => {
   const [sensor, setSensor] = useState("");
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
+  const [plant, setPlant] = useState("");
+  const [minValue, setMinValue] = useState();
+  const [maxValue, setMaxValue] = useState();
   const { t, i18n } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      sensor,
-      min_value: minValue,
-      max_value: maxValue,
-    });
+    let payload = {
+      min_value: parseInt(minValue),
+      max_value: parseInt(maxValue),
+    };
+    const response = setPlantSensorTresholds(plant, sensor, payload);
+    console.log(response);
+  };
+
+  const handlePlantSelectChange = (e) => {
+    setPlant(e.id);
   };
 
   const handleSensorChange = (e) => {
@@ -25,14 +33,14 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
   };
 
   const handleMinValueChange = (e) => {
-    const value = e.value;
+    const value = e.target.value;
     if (sensor === "lux" && value < 0) return;
     if (sensor === "hum" && (value < 0 || value > 100)) return;
     setMinValue(value);
   };
 
   const handleMaxValueChange = (e) => {
-    const value = e.value;
+    const value = e.target.value;
     if (sensor === "hum" && value > 100) return;
     setMaxValue(value);
   };
@@ -55,9 +63,9 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
   }
 
   const types = [
-    { value: "lux", name: "Light sensor" },
-    { value: "hum", name: "Soil humidity sensor" },
-    { value: "temp", name: "Temperature sensor" },
+    { value: "lux", name: t("Settings.ThresholdForm.luxSensorType") },
+    { value: "hum", name: t("Settings.ThresholdForm.humSensorType") },
+    { value: "temp", name: t("Settings.ThresholdForm.tempSensorType") },
   ];
 
   return (
@@ -65,6 +73,13 @@ const ChangeThresholdsModal = ({ show, onClose, onSubmit }) => {
       <header>{t("Settings.ThresholdForm.title")}</header>
       <form onSubmit={handleSubmit}>
         <br />
+        <PlantSelectComponent
+          options={plants}
+          onChange={handlePlantSelectChange}
+          placeholder="Select plant"
+          isSearchable={false}
+        />
+        <br></br>
         <SensorSelectComponent
           options={types}
           onChange={handleSensorChange}

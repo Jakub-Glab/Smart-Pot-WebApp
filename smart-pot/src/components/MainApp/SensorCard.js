@@ -55,7 +55,6 @@ const SensorCard = ({ sensor, value, unit }) => {
 
   useEffect(() => {
     const savedTz = localStorage.getItem("timezone");
-    console.log("Saved tz: ", savedTz);
     if (savedTz) {
       setTz(savedTz);
     }

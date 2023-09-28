@@ -13,6 +13,8 @@ import DeleteConfirmationModal from "../Modals/DeleteConfirmationModal";
 import DeviceCard from "./DeviceCard";
 import PlantCard from "./PlantCard";
 import Tooltip from "./Tooltip";
+import { useTranslation } from "react-i18next";
+import "../../i18n/i18n";
 import "../../assets/css/ManagePlants.css";
 
 const ManagePlants = () => {
@@ -30,11 +32,11 @@ const ManagePlants = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const { t, i18n } = useTranslation();
 
   const handlePlantClick = (plantId) => {
-    console.log("Plant ID: ", plantId);
     if (buttonClicked) {
-      setModalMessage("Are you sure you want to delete this plant?");
+      setModalMessage(t("Manage.deletePlantModalMessage"));
       setPlantToDelete(plantId);
       setDeletingEntityType("plant");
       setShowModal(true);
@@ -52,9 +54,8 @@ const ManagePlants = () => {
   };
 
   const handleDeviceClick = async (e, deviceId) => {
-    console.log("Device ID: ", deviceId);
     if (buttonClicked) {
-      setModalMessage("Are you sure you want to delete this device?");
+      setModalMessage(t("Manage.deleteDeviceModalMessage"));
       setDeviceToDelete(deviceId);
       setDeletingEntityType("device");
       setShowModal(true);
@@ -75,7 +76,6 @@ const ManagePlants = () => {
   };
 
   const handleDeleteEntity = async () => {
-    console.log("Deleting entity: ", deletingEntityType);
     if (deletingEntityType === "plant") {
       let response = await deletePlant(plantToDelete);
       if (response.status === 200) {
@@ -110,8 +110,6 @@ const ManagePlants = () => {
   }, []);
 
   const handleCreatePlant = async (plantData) => {
-    // Create the payload
-    console.log("Plant data: ", plantData);
     let payload = {
       name: plantData.name,
       device_id: plantData.id,
@@ -155,7 +153,7 @@ const ManagePlants = () => {
       {showPlantFormModal || showDeviceFormModal ? null : (
         <div className="form">
           <header>
-            Manage Plants
+            {t("Manage.Manage")}
             <div
               className="refresh-sign"
               style={{ float: "right" }}
@@ -183,7 +181,7 @@ const ManagePlants = () => {
           <div className="info__container">
             {/* Devices Listing */}
             <h2>
-              Devices
+              {t("devices")}
               <div
                 className="addDevice-sign"
                 style={{ float: "right" }}
@@ -217,7 +215,7 @@ const ManagePlants = () => {
 
             {/* Plants Listing */}
             <h2>
-              Plants
+              {t("plants")}
               <div
                 className="addPlant-sign"
                 style={{ float: "right" }}
@@ -252,7 +250,7 @@ const ManagePlants = () => {
           <input
             type="button"
             className={`buttonDel ${buttonClicked ? "active" : ""}`}
-            value="Delete"
+            value={t("delete")}
             onClick={() => {
               setButtonClicked(!buttonClicked);
             }}

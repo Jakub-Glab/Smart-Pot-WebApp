@@ -1,11 +1,16 @@
 {
   "yes": "Yes",
   "no": "No",
+  "plant": "Plant",
+  "device": "Device",
+  "plants": "Plants",
+  "devices": "Devices",
+  "delete": "Delete",
   "BurgerMenu": {
     "home": "Home",
     "manage_plants": "Manage Plants",
     "statistics": "Statistics",
-    "calendar": "Calendar",
+    "calendar": "Charts",
     "settings": "Settings",
     "logout": "Log out"
   },
@@ -35,6 +40,9 @@
     "selectPlaceholder": "Select...",
     "ThresholdForm": {
       "title": "Change thresholds for sensors",
+      "luxSensorType": "Light sensor",
+      "humSensorType": "Soil humidity sensor",
+      "tempSensorType": "Temperature sensor",
       "selectSensor": "Select sensor type",
       "enterMin": "Enter new minimum value",
       "enterMax": "Enter new maximum value",
@@ -49,5 +57,10 @@
       "delete": "Delete account",
       "close": "Close"
     }
+  },
+  "Manage": {
+    "Manage": "Manage Plants",
+    "deletePlantModalMessage": "Are you sure you want to delete this plant?",
+    "deleteDeviceModalMessage": "Are you sure you want to delete this device?"
   }
 }

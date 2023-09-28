@@ -56,6 +56,17 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (selectedPlant) {
+      const updatedSelectedPlant = plants.find(
+        (plant) => plant.id === selectedPlant.id
+      );
+      if (updatedSelectedPlant) {
+        setSelectedPlant(updatedSelectedPlant);
+      }
+    }
+  }, [plants]);
+
+  useEffect(() => {
     if (!selectedPlant && plants.length > 0) {
       setSelectedPlant(plants[0]);
     }

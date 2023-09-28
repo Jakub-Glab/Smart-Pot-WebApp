@@ -5,7 +5,12 @@ import spacetime from "spacetime";
 import TimezoneSelectComponent from "./TimeZoneSelectComponent";
 import LanguageSelectComponent from "./LanguageSelectComponent";
 import TimezoneContext from "../Context/TimezoneContext";
-import { setTimezone, setLanguage, getCurrentUser } from "../hooks/api";
+import {
+  setTimezone,
+  setUserLanguage,
+  getCurrentUser,
+  getPlants,
+} from "../hooks/api";
 import db from "../hooks/db";
 import { useTranslation } from "react-i18next";
 import "../../i18n/i18n";
@@ -24,51 +29,39 @@ const Settings = () => {
   const [defaultLanguageOption, setDefaultLanguageOption] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { t, i18n } = useTranslation();
+  const [plants, setPlants] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const plantsResponse = await getPlants();
+      setPlants(plantsResponse.data);
+    };
+
+    fetchData();
+  }, []);
 
   useMemo(() => {
-    console.log("Timezone changed: ", tz);
     if (!tz) return;
     const tzValue = tz.value;
     setDatetime(datetime.goto(tzValue));
   }, [tz]);
 
   useEffect(() => {
-    console.log("Current tz: ", tz);
-  }, [tz]);
-
-  useEffect(() => {
     getCurrentUser().then((user) => {
-      if (!user.data.timezone || !user.data.language) return;
+      console.log("User: ", user);
+      if (!user.data.timezone || !user.data.language) {
+        setIsLoading(false);
+        return;
+      }
       setTz(user.data.timezone);
       setLanguage(user.data.language);
       setDefaultLanguageOption(
         languageOptions.find((option) => option.value === user.data.language)
       );
+      if (user.data.language === "ENG") i18n.changeLanguage("en");
+      if (user.data.language === "PL") i18n.changeLanguage("pl");
+      setIsLoading(false);
     });
-  }, []);
-
-  useEffect(() => {
-    db.settings
-      .orderBy("id") // Assumes 'id' is an auto-incrementing field
-      .reverse() // Sorts the results in descending order
-      .first() // Fetches the first (latest) item
-      .then((userSettings) => {
-        console.log("User settings: ", userSettings);
-        if (userSettings) {
-          setTz(userSettings.timezone);
-          const matchingLanguageOption = languageOptions.find(
-            (option) => option.value === userSettings.language
-          );
-          console.log("Matching language option: ", matchingLanguageOption);
-          setDefaultLanguageOption(matchingLanguageOption);
-          if (userSettings.language === "ENG") i18n.changeLanguage("en");
-          if (userSettings.language === "PL") i18n.changeLanguage("pl");
-        }
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch user settings: ", error);
-      });
   }, []);
 
   const languageOptions = [
@@ -85,46 +78,25 @@ const Settings = () => {
   ];
 
   const onTimezoneChange = async (e) => {
-    setTz(e.value);
-    console.log("Timezone changed: ", e.value);
-    const newSettings = { timezone: e.value, language: language };
-    db.settings.put(newSettings);
-
-    //API call to update timezone
     const response = await setTimezone(e.value);
     if (response.status === 200) {
-      console.log("Timezone updated");
-    } else {
-      console.log("Timezone update failed");
+      setTz(e.value);
     }
   };
 
   const onLanguageChange = async (e) => {
-    setLanguage(e.value);
-    const newSettings = { timezone: tz, language: e.value };
-    db.settings.put(newSettings);
-    if (e.value === "ENG") {
-      i18n.changeLanguage("en");
-    }
-    if (e.value === "PL") {
-      i18n.changeLanguage("pl");
-    }
-
-    //API call to update language
-    const response = await setLanguage(e.value);
+    const response = await setUserLanguage(e.value);
     if (response.status === 200) {
-      console.log("Language updated");
-    } else {
-      console.log("Language update failed");
+      setLanguage(e.value);
+      if (e.value === "ENG") i18n.changeLanguage("en");
+      if (e.value === "PL") i18n.changeLanguage("pl");
     }
   };
 
   const onMenuOpen = () => {
-    console.log("Menu opened");
     setIsSelectExpanded(true);
   };
   const onMenuClose = () => {
-    console.log("Menu closed");
     setIsSelectExpanded(false);
   };
 
@@ -190,6 +162,7 @@ const Settings = () => {
           {showChangeThresholdsModal && (
             <ChangeThresholdsModal
               show={showChangeThresholdsModal}
+              plants={plants}
               onClose={() => setShowChangeThresholdsModal(false)} // Toggle the modal off
             />
           )}

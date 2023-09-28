@@ -58,8 +58,8 @@ const averageData = (timeData, valueData, intervalMinutes = 15) => {
     averagedTimeData[i] = date.toISOString();
   }
 
-  console.log("averagedTimeData:", averagedTimeData);
-  console.log("averagedValueData:", averagedValueData);
+  // console.log("averagedTimeData:", averagedTimeData);
+  // console.log("averagedValueData:", averagedValueData);
 
   return [averagedTimeData, averagedValueData];
 };

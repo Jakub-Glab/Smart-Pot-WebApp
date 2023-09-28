@@ -11,7 +11,7 @@ const DeviceCard = ({
     if (e.type === "ESP") {
       return "../../assets/img/device_esp.png";
     }
-    if (e.type === "NODEMCU") {
+    if (e.type === "RASPBERRYPI") {
       return "../../assets/img/device_pi.png";
     }
   };

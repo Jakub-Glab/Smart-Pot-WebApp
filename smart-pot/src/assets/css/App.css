@@ -401,3 +401,39 @@ img {
   box-shadow: 4px 4px 16px #e1e1e1;
   font-size: 14px;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.calendar_rounded {
+  .react-datepicker-popper {
+    border-radius: 1rem;
+  }
+}
+
+.rbc-month-row {
+  display: inline-table !important;
+  flex: 0 0 0 !important;
+  min-height: 50px !important;
+}
+
+.react-datepicker-popper {
+  z-index: 999;
+}
+
+.rbc-row-content {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 0 !important;
+}
+
+.react-datepicker__close-icon {
+  padding-right: 20px !important;
+  padding-bottom: 16px !important;
+}

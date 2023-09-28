@@ -10,7 +10,6 @@ const PlantHistoryLimit = () => {
     const fetchData = async () => {
       const response = await getPlantHistoryByLimit(12, 5);
       const data = response.data;
-      console.log(data);
       const timestamps = data.map((d) => new Date(d.added_at).toISOString());
       const humidity = data.map((d) => d.humidity);
       const temperature = data.map((d) => d.temperature);

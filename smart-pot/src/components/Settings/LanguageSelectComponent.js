@@ -9,7 +9,6 @@ const LanguageSelectComponent = ({
   onMenuOpen,
   onChange,
 }) => {
-  console.log("Default value: ", defaultValue);
   return (
     <Select
       options={options}
